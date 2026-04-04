@@ -14,6 +14,19 @@ define('LOFTWOOD_DIR', get_template_directory());
 define('LOFTWOOD_URI', get_template_directory_uri());
 
 /**
+ * ACF fallback — prevent fatal errors when ACF is not installed
+ */
+if (!function_exists('get_field')) {
+    function get_field($selector, $post_id = false) { return null; }
+}
+if (!function_exists('get_the_terms')) {
+    // Already exists in WP core, but just in case
+}
+if (!function_exists('the_field')) {
+    function the_field($selector, $post_id = false) { return; }
+}
+
+/**
  * Enqueue styles and scripts
  */
 function loftwood_enqueue_assets(): void

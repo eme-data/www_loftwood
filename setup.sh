@@ -347,14 +347,16 @@ docker compose exec -T -u root wpcli wp option update date_format "j F Y" --allo
 docker compose exec -T -u root wpcli wp option update time_format "H:i" --allow-root
 
 echo "[*] Configuration HTTPS (reverse proxy Traefik)..."
-docker compose exec -T -u root wordpress bash -c 'cat >> /var/www/html/wp-config.php <<PHPEOF
-
-/* HTTPS derrière Traefik */
-if (isset(\$_SERVER["HTTP_X_FORWARDED_PROTO"]) && \$_SERVER["HTTP_X_FORWARDED_PROTO"] === "https") {
-    \$_SERVER["HTTPS"] = "on";
-}
-define("FORCE_SSL_ADMIN", true);
-PHPEOF'
+docker compose exec -T -u root wordpress bash -c '
+if ! grep -q "HTTP_X_FORWARDED_PROTO" /var/www/html/wp-config.php 2>/dev/null; then
+    sed -i "/\/\* That'\''s all, stop editing!/i\\
+/* HTTPS derrière Traefik */\\
+if (isset(\\\$_SERVER[\"HTTP_X_FORWARDED_PROTO\"]) \&\& \\\$_SERVER[\"HTTP_X_FORWARDED_PROTO\"] === \"https\") {\\
+    \\\$_SERVER[\"HTTPS\"] = \"on\";\\
+}\\
+if (!defined(\"FORCE_SSL_ADMIN\")) { define(\"FORCE_SSL_ADMIN\", true); }\\
+" /var/www/html/wp-config.php
+fi'
 docker compose exec -T -u root wpcli wp option update siteurl "$WORDPRESS_URL" --allow-root
 docker compose exec -T -u root wpcli wp option update home "$WORDPRESS_URL" --allow-root
 echo "[✓] HTTPS configuré."

@@ -13,13 +13,6 @@ define('LOFTWOOD_VERSION', '1.0.0');
 define('LOFTWOOD_DIR', get_template_directory());
 define('LOFTWOOD_URI', get_template_directory_uri());
 
-/**
- * ACF fallback — only define stubs if no ACF/SCF plugin is active
- */
-if (!defined('ACF') && !function_exists('get_field')) {
-    function get_field($selector, $post_id = false) { return null; }
-    function the_field($selector, $post_id = false) { return; }
-}
 
 /**
  * Enqueue styles and scripts

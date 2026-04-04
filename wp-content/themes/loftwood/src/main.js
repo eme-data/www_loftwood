@@ -217,18 +217,30 @@ function initCustomCursor() {
 }
 
 // ============================================
-// Preloader — Page load animation
+// Preloader — Animated logo reveal
 // ============================================
 
 function initPreloader() {
   const preloader = document.querySelector('.lw-preloader');
   if (!preloader) return;
 
+  // Minimum display time: let the full animation play (pastilles + logo + progress)
+  const minDuration = 2800;
+  const startTime = performance.now();
+
   window.addEventListener('load', () => {
+    const elapsed = performance.now() - startTime;
+    const remaining = Math.max(0, minDuration - elapsed);
+
     setTimeout(() => {
       preloader.classList.add('is-loaded');
-    }, 300);
+    }, remaining);
   });
+
+  // Safety: force hide after 5s even if load event is slow
+  setTimeout(() => {
+    preloader.classList.add('is-loaded');
+  }, 5000);
 }
 
 // ============================================

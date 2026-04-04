@@ -164,7 +164,7 @@ add_filter('upload_mimes', 'loftwood_mime_types');
 /**
  * Register block patterns
  */
-function loftwood_register_pattern_categories(): void
+function loftwood_register_patterns(): void
 {
     register_block_pattern_category('loftwood', [
         'label' => __('Loftwood', 'loftwood'),
@@ -172,5 +172,29 @@ function loftwood_register_pattern_categories(): void
     register_block_pattern_category('loftwood-sections', [
         'label' => __('Loftwood - Sections', 'loftwood'),
     ]);
+
+    // Explicitly register all patterns from the patterns/ directory
+    $patterns_dir = LOFTWOOD_DIR . '/patterns';
+    if (!is_dir($patterns_dir)) return;
+
+    foreach (glob($patterns_dir . '/*.php') as $file) {
+        $headers = get_file_data($file, [
+            'title'      => 'Title',
+            'slug'       => 'Slug',
+            'categories' => 'Categories',
+        ]);
+
+        if (empty($headers['slug'])) continue;
+
+        $categories = !empty($headers['categories'])
+            ? array_map('trim', explode(',', $headers['categories']))
+            : ['loftwood'];
+
+        register_block_pattern($headers['slug'], [
+            'title'      => $headers['title'] ?: basename($file, '.php'),
+            'categories' => $categories,
+            'filePath'   => $file,
+        ]);
+    }
 }
-add_action('init', 'loftwood_register_pattern_categories');
+add_action('init', 'loftwood_register_patterns');

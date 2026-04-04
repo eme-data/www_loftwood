@@ -150,16 +150,16 @@ function initMobileMenu() {
   if (!toggle || !menu) return;
 
   toggle.addEventListener('click', () => {
-    const isOpen = !menu.classList.contains('hidden');
-    menu.classList.toggle('hidden');
+    const isOpen = menu.style.display === 'block';
+    menu.style.display = isOpen ? 'none' : 'block';
     toggle.setAttribute('aria-expanded', !isOpen);
 
     // Animate hamburger
     const bars = toggle.querySelectorAll('span');
     if (!isOpen) {
-      bars[0].style.transform = 'rotate(45deg) translateY(8px)';
+      bars[0].style.transform = 'rotate(45deg) translateY(7px)';
       bars[1].style.opacity = '0';
-      bars[2].style.transform = 'rotate(-45deg) translateY(-8px)';
+      bars[2].style.transform = 'rotate(-45deg) translateY(-7px)';
     } else {
       bars[0].style.transform = '';
       bars[1].style.opacity = '';

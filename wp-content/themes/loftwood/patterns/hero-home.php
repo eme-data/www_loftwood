@@ -12,7 +12,7 @@ $content = $first_slide ? ($first_slide['content'] ?? '') : '';
 $btn = $first_slide ? ($first_slide['btn_txt'] ?? []) : [];
 ?>
 
-<section class="relative min-h-[90vh] flex items-center overflow-hidden" data-hero>
+<section class="relative flex items-center overflow-hidden" style="min-height:100vh;margin-top:-70px;" data-hero>
     <?php if ($bg_image) : ?>
         <div class="absolute inset-0 z-0">
             <img

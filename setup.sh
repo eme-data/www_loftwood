@@ -202,9 +202,9 @@ mkdir -p "$SCRIPT_DIR/letsencrypt"
 cat > "$SCRIPT_DIR/docker-compose.yml" <<'DCEOF'
 services:
   traefik:
-    image: traefik:v3.4
+    image: traefik:v2.11
     command:
-      - "--api.dashboard=true"
+      - "--api.dashboard=false"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"

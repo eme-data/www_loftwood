@@ -51,7 +51,7 @@ $sale_content = get_field('h_sale_content', $front_id);
 
             <!-- Image -->
             <?php if ($sale_image) : ?>
-                <div class="relative rounded-2xl overflow-hidden aspect-[4/3]" data-reveal="right">
+                <div class="relative rounded-2xl overflow-hidden aspect-[4/3]" data-reveal-image="right">
                     <img
                         src="<?php echo esc_url($sale_image['url']); ?>"
                         alt="<?php echo esc_attr($sale_image['alt'] ?? 'Vente de terrain'); ?>"

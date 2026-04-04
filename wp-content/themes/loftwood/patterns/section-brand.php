@@ -17,7 +17,7 @@ $brand_list = get_field('h_brand_list', $front_id);
 
             <!-- Image -->
             <?php if ($brand_img) : ?>
-                <div class="relative rounded-2xl overflow-hidden aspect-[4/5]" data-reveal="left">
+                <div class="relative rounded-2xl overflow-hidden aspect-[4/5]" data-reveal-image="left">
                     <img
                         src="<?php echo esc_url($brand_img['url']); ?>"
                         alt="<?php echo esc_attr($brand_img['alt'] ?? 'Loftwood'); ?>"
@@ -32,7 +32,7 @@ $brand_list = get_field('h_brand_list', $front_id);
             <?php if ($brand_content) : ?>
                 <div data-reveal="right">
                     <?php if (!empty($brand_content['title'])) : ?>
-                        <h2 class="section-title-serif text-4xl lg:text-5xl text-foreground mb-6">
+                        <h2 class="section-title-serif text-4xl lg:text-5xl text-foreground mb-6" data-line-reveal>
                             <?php echo wp_kses_post($brand_content['title']); ?>
                         </h2>
                     <?php endif; ?>

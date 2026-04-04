@@ -1,6 +1,19 @@
 import './main.css';
+import Lenis from 'lenis';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initHero } from './animations/hero.js';
 import { initParallax, initProgressBar } from './animations/scroll-effects.js';
+import {
+  initImageReveal,
+  initMagneticButtons,
+  initCardTilt,
+  initTextParallax,
+  initLineReveal,
+  initSmoothCounters,
+} from './animations/motion-premium.js';
+
+gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Loftwood — Motion Design System
@@ -421,6 +434,40 @@ function initSkipToContent() {
 }
 
 // ============================================
+// Smooth Scroll — Lenis
+// ============================================
+
+function initSmoothScroll() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    touchMultiplier: 1.5,
+  });
+
+  // Connect Lenis to GSAP ScrollTrigger
+  lenis.on('scroll', ScrollTrigger.update);
+
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+  });
+  gsap.ticker.lagSmoothing(0);
+
+  // Expose for anchor clicks
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', (e) => {
+      const target = document.querySelector(anchor.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        lenis.scrollTo(target, { offset: -80 });
+      }
+    });
+  });
+}
+
+// ============================================
 // Cookie Consent — RGPD
 // ============================================
 
@@ -468,6 +515,7 @@ function initCookieConsent() {
 
 document.addEventListener('DOMContentLoaded', () => {
   initPreloader();
+  initSmoothScroll();
   initSkipToContent();
   initScrollReveal();
   initStickyHeader();
@@ -482,4 +530,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initTestimonialCarousel();
   initBackToTop();
   initCookieConsent();
+
+  // Premium motion effects
+  initImageReveal();
+  initMagneticButtons();
+  initCardTilt();
+  initTextParallax();
+  initLineReveal();
+  initSmoothCounters();
 });

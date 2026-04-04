@@ -37,9 +37,7 @@
     }
   }
 
-  html {
-    scroll-behavior: smooth;
-  }
+  /* Smooth scroll handled by Lenis JS — no CSS scroll-behavior needed */
 
   body {
     font-family: 'Inter', system-ui, sans-serif;
@@ -998,7 +996,37 @@
 }
 
 /* ============================================
-   HOVER MAGNETIC — Premium interactive feel
+   IMAGE REVEAL — Clip-path wipe on scroll
+   ============================================ */
+
+[data-reveal-image] {
+  will-change: clip-path;
+}
+
+/* ============================================
+   3D CARD TILT — Perspective container
+   ============================================ */
+
+.card-loftwood {
+  perspective: 800px;
+}
+
+/* ============================================
+   WORD REVEAL — GSAP line animation
+   ============================================ */
+
+.lw-word-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.lw-word {
+  display: inline-block;
+}
+
+/* ============================================
+   MAGNETIC BUTTONS — Elastic follow
    ============================================ */
 
 .magnetic-hover {

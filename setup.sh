@@ -249,6 +249,7 @@ services:
 
   db:
     image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password --skip-ssl
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}

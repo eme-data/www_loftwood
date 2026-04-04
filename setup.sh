@@ -177,7 +177,7 @@ log "Mise à jour de docker-compose.yml pour utiliser .env..."
 cat > "$SCRIPT_DIR/docker-compose.yml" <<'DCEOF'
 services:
   wordpress:
-    image: wordpress:6.7-php8.3-apache
+    image: wordpress:6.8-php8.3-apache
     ports:
       - "8080:80"
     environment:
@@ -303,9 +303,9 @@ docker compose exec -T -u root wpcli wp theme delete twentytwentyfour --allow-ro
 docker compose exec -T -u root wpcli wp theme delete twentytwentythree --allow-root 2>/dev/null || true
 
 echo "[*] Installation des plugins essentiels..."
-docker compose exec -T -u root wpcli wp plugin install contact-form-7 --activate --allow-root
-docker compose exec -T -u root wpcli wp plugin install wordpress-seo --activate --allow-root
-docker compose exec -T -u root wpcli wp plugin install svg-support --activate --allow-root
+docker compose exec -T -u root wpcli wp plugin install contact-form-7 --activate --allow-root || warn "contact-form-7 non installé"
+docker compose exec -T -u root wpcli wp plugin install wordpress-seo --activate --allow-root || warn "wordpress-seo non installé"
+docker compose exec -T -u root wpcli wp plugin install svg-support --activate --allow-root || warn "svg-support non installé"
 
 echo "[*] Suppression des plugins par défaut..."
 docker compose exec -T -u root wpcli wp plugin delete hello --allow-root 2>/dev/null || true

@@ -141,6 +141,34 @@ function initImageReveal() {
 }
 
 // ============================================
+// Mobile Menu Toggle
+// ============================================
+
+function initMobileMenu() {
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  if (!toggle || !menu) return;
+
+  toggle.addEventListener('click', () => {
+    const isOpen = !menu.classList.contains('hidden');
+    menu.classList.toggle('hidden');
+    toggle.setAttribute('aria-expanded', !isOpen);
+
+    // Animate hamburger
+    const bars = toggle.querySelectorAll('span');
+    if (!isOpen) {
+      bars[0].style.transform = 'rotate(45deg) translateY(8px)';
+      bars[1].style.opacity = '0';
+      bars[2].style.transform = 'rotate(-45deg) translateY(-8px)';
+    } else {
+      bars[0].style.transform = '';
+      bars[1].style.opacity = '';
+      bars[2].style.transform = '';
+    }
+  });
+}
+
+// ============================================
 // Init
 // ============================================
 
@@ -152,4 +180,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initHero();
   initParallax();
   initProgressBar();
+  initMobileMenu();
 });

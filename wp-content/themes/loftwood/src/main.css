@@ -55,7 +55,10 @@
 }
 
 /* ============================================
-   PRELOADER — Animated logo reveal
+   PRELOADER — 3-phase logo reveal
+   Phase 1: 5 pastilles appear one by one
+   Phase 2: Pastilles fade, real logo crossfades in
+   Phase 3: Progress bar fills, preloader exits
    ============================================ */
 
 .lw-preloader {
@@ -66,7 +69,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 800ms var(--ease-loftwood), visibility 800ms;
+  transition: opacity 900ms var(--ease-loftwood), visibility 900ms;
 }
 
 .lw-preloader.is-loaded {
@@ -78,31 +81,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
+  position: relative;
 }
 
-/* --- 5 Pastilles animées --- */
+/* ---- Phase 1 : Pastilles ---- */
 .lw-preloader-pastilles {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.625rem;
   align-items: center;
+  /* Fade out pastilles when logo appears */
+  animation: pastilles-out 600ms var(--ease-loftwood) forwards;
+  animation-delay: 1600ms;
 }
 
 .lw-pastille {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   color: var(--color-slate);
   opacity: 0;
-  transform: scale(0.5) translateY(10px);
-  animation: pastille-in 500ms var(--ease-loftwood) forwards;
-  animation-delay: calc(var(--delay) * 150ms);
+  transform: scale(0) rotate(-20deg);
+  animation: pastille-pop 500ms var(--ease-loftwood) forwards;
+  animation-delay: calc(var(--i) * 200ms + 100ms);
 }
 
 @media (min-width: 640px) {
-  .lw-pastille {
-    width: 56px;
-    height: 56px;
-  }
+  .lw-pastille { width: 54px; height: 54px; }
+  .lw-preloader-pastilles { gap: 0.875rem; }
 }
 
 .lw-pastille svg {
@@ -110,97 +115,85 @@
   height: 100%;
 }
 
-/* Draw circle animation */
-.lw-pastille svg circle {
+/* Circle draw animation */
+.lw-pastille svg > circle {
   stroke-dasharray: 176;
   stroke-dashoffset: 176;
-  animation: draw-circle 600ms var(--ease-loftwood) forwards;
-  animation-delay: calc(var(--delay) * 150ms + 100ms);
+  animation: draw-circle 700ms var(--ease-loftwood) forwards;
+  animation-delay: calc(var(--i) * 200ms + 200ms);
 }
 
-@keyframes pastille-in {
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+/* Inner icon fades in after circle draws */
+.lw-pastille svg > :not(circle) {
+  opacity: 0;
+  animation: icon-fade 400ms ease forwards;
+  animation-delay: calc(var(--i) * 200ms + 500ms);
+}
+
+@keyframes pastille-pop {
+  0% { opacity: 0; transform: scale(0) rotate(-20deg); }
+  60% { opacity: 1; transform: scale(1.1) rotate(3deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
 }
 
 @keyframes draw-circle {
-  to {
-    stroke-dashoffset: 0;
-  }
+  to { stroke-dashoffset: 0; }
 }
 
-/* --- Logo image reveal --- */
-.lw-preloader-logo-img {
+@keyframes icon-fade {
+  to { opacity: 1; }
+}
+
+@keyframes pastilles-out {
+  to { opacity: 0; transform: translateY(-10px) scale(0.95); }
+}
+
+/* ---- Phase 2 : Logo complet crossfade ---- */
+.lw-preloader-logo-full {
   opacity: 0;
-  transform: translateY(10px);
-  animation: logo-reveal 700ms var(--ease-loftwood) forwards;
-  animation-delay: 1000ms;
+  transform: translateY(8px) scale(0.97);
+  animation: logo-enter 800ms var(--ease-loftwood) forwards;
+  animation-delay: 1700ms;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform-origin: center top;
 }
 
-.lw-preloader-logo-img img {
-  max-width: 200px;
+.lw-preloader-logo-full img {
+  max-width: 220px;
   height: auto;
 }
 
 @media (min-width: 640px) {
-  .lw-preloader-logo-img img {
-    max-width: 260px;
+  .lw-preloader-logo-full img {
+    max-width: 280px;
   }
 }
 
-/* Text fallback */
-.lw-preloader-text {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.lw-preloader-wordmark {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 2rem;
-  font-weight: 300;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--color-slate);
-}
-
-.lw-preloader-wordmark strong {
-  font-weight: 700;
-}
-
-.lw-preloader-subtitle {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.625rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-  color: var(--color-slate);
-  opacity: 0;
-  animation: logo-reveal 500ms var(--ease-loftwood) forwards;
-  animation-delay: 1400ms;
-}
-
-@keyframes logo-reveal {
+@keyframes logo-enter {
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1) translateX(-50%);
   }
 }
 
-/* --- Progress bar --- */
+/* Initial translateX for centering */
+.lw-preloader-logo-full {
+  transform: translateX(-50%) translateY(8px) scale(0.97);
+}
+
+/* ---- Phase 3 : Progress bar ---- */
 .lw-preloader-progress {
-  width: 120px;
+  width: 100px;
   height: 2px;
-  background: rgba(83, 93, 106, 0.12);
+  background: rgba(83, 93, 106, 0.1);
   border-radius: 2px;
   overflow: hidden;
   opacity: 0;
-  animation: logo-reveal 400ms ease forwards;
-  animation-delay: 1200ms;
-  transform: translateY(0);
+  animation: fade-in-up 400ms ease forwards;
+  animation-delay: 2000ms;
+  margin-top: 3rem;
 }
 
 .lw-preloader-progress-bar {
@@ -208,8 +201,13 @@
   height: 100%;
   background: linear-gradient(90deg, var(--color-eco-green), var(--color-eco-green-light));
   border-radius: 2px;
-  animation: progress-fill 1200ms var(--ease-loftwood) forwards;
-  animation-delay: 1400ms;
+  animation: progress-fill 1000ms var(--ease-loftwood) forwards;
+  animation-delay: 2200ms;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes progress-fill {

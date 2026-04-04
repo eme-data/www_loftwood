@@ -13,40 +13,70 @@ $phone_clean = preg_replace('/\s+/', '', $phone);
 <!-- Preloader -->
 <div class="lw-preloader" aria-hidden="true">
     <div class="lw-preloader-content">
-        <!-- 5 pastilles animées -->
+        <!-- Phase 1 : 5 pastilles du vrai logo, apparaissent une par une -->
         <div class="lw-preloader-pastilles">
-            <div class="lw-pastille" style="--delay: 0">
-                <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M30 42c-8 0-14-6-14-14h2c0 6.6 5.4 12 12 12s12-5.4 12-12h2c0 8-6 14-14 14z" fill="currentColor" opacity="0.6"/><path d="M24 28c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            <!-- 1. Pin parasol / Arbre -->
+            <div class="lw-pastille" style="--i:0">
+                <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="1.2"/>
+                    <line x1="30" y1="44" x2="30" y2="30" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M30 18c-4 0-11 5-11 12 0 4 3 5 5 5h12c2 0 5-1 5-5 0-7-7-12-11-12z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                    <path d="M22 44h16" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
             </div>
-            <div class="lw-pastille" style="--delay: 1">
-                <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M15 38h30M18 34l6-10 6 6 6-10 6 14" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <!-- 2. Collines / Paysage vallonné -->
+            <div class="lw-pastille" style="--i:1">
+                <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M10 40c4-3 7-10 12-10s6 4 8 4 4-6 10-6 8 5 12 12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 40h42" stroke="currentColor" stroke-width="1.2"/>
+                    <circle cx="42" cy="20" r="3" stroke="currentColor" stroke-width="1.2"/>
+                </svg>
             </div>
-            <div class="lw-pastille" style="--delay: 2">
-                <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M20 35c3-4 7-6 10-6s7 2 10 6M18 38c4-5 8-7 12-7s8 2 12 7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><circle cx="30" cy="24" r="3" fill="currentColor" opacity="0.5"/></svg>
+            <!-- 3. Lac / Eau avec reflet -->
+            <div class="lw-pastille" style="--i:2">
+                <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M14 30c3-5 7-12 16-12s13 7 16 12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                    <path d="M14 30h32" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M18 34h6M20 37h8M22 40h10" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+                    <line x1="30" y1="18" x2="30" y2="24" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M27 22c0-3 3-5 3-5s3 2 3 5" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                </svg>
             </div>
-            <div class="lw-pastille" style="--delay: 3">
-                <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="22" y="25" width="16" height="12" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M22 28h16M26 25v-3h8v3" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            <!-- 4. Maison / Habitat bois -->
+            <div class="lw-pastille" style="--i:3">
+                <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M18 32l12-10 12 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="22" y="32" width="16" height="11" stroke="currentColor" stroke-width="1.2"/>
+                    <rect x="27" y="36" width="6" height="7" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M18 43h24" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
             </div>
-            <div class="lw-pastille" style="--delay: 4">
-                <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M20 36l5-8 5 4 5-6 5 10" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 38h24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <!-- 5. Terrain / Parcelle avec végétation -->
+            <div class="lw-pastille" style="--i:4">
+                <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M12 38l8-6 6 3 8-8 6 4 8-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 42h36" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                    <path d="M20 34v-4M24 31v-3M36 28v-4" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+                    <circle cx="20" cy="28" r="2" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+                    <circle cx="36" cy="22" r="2.5" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+                </svg>
             </div>
         </div>
 
-        <!-- Logo complet qui apparaît après les pastilles -->
-        <?php if (!empty($logo) && !empty($logo['url'])) : ?>
-            <div class="lw-preloader-logo-img">
+        <!-- Phase 2 : Logo complet qui apparaît (crossfade) -->
+        <div class="lw-preloader-logo-full">
+            <?php if (!empty($logo) && !empty($logo['url'])) : ?>
                 <img src="<?php echo esc_url($logo['url']); ?>" alt="Loftwood" />
-            </div>
-        <?php else : ?>
-            <div class="lw-preloader-logo-img">
-                <div class="lw-preloader-text">
-                    <span class="lw-preloader-wordmark">LOFT<strong>WOOD</strong></span>
-                    <span class="lw-preloader-subtitle">PROMOTION IMMOBILIÈRE</span>
-                </div>
-            </div>
-        <?php endif; ?>
+            <?php else : ?>
+                <img src="<?php echo esc_url(LOFTWOOD_URI . '/assets/images/logo_loftwood.svg'); ?>" alt="Loftwood" />
+            <?php endif; ?>
+        </div>
 
-        <!-- Ligne de progression -->
+        <!-- Phase 3 : Barre de progression -->
         <div class="lw-preloader-progress">
             <div class="lw-preloader-progress-bar"></div>
         </div>

@@ -224,8 +224,8 @@ function initPreloader() {
   const preloader = document.querySelector('.lw-preloader');
   if (!preloader) return;
 
-  // Minimum display time: let the full animation play (pastilles + logo + progress)
-  const minDuration = 2800;
+  // Minimum display: pastilles (1.1s) + crossfade (0.6s) + logo (0.8s) + progress (1.2s)
+  const minDuration = 3500;
   const startTime = performance.now();
 
   window.addEventListener('load', () => {

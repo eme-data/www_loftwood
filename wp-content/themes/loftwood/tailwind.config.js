@@ -16,6 +16,10 @@ export default {
         'deep-purple': '#2E2269',
         cream: '#FBFAF8',
         'warm-white': '#F7EEE8',
+        'eco-green': '#2D5A3D',
+        'eco-green-light': '#3A7A52',
+        'foreground': '#2C3E44',
+        'foreground-dark': '#232F34',
       },
       fontFamily: {
         inter: ['Inter', 'system-ui', 'sans-serif'],

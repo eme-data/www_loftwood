@@ -41,7 +41,7 @@ $phone_clean = preg_replace('/\s+/', '', $phone);
                 </svg>
             </a>
 
-            <a href="<?php echo esc_url(home_url('/contactez-nous/')); ?>" class="lw-header-cta">
+            <a href="<?php echo esc_url(home_url('/contactez-nous/')); ?>" class="lw-header-cta lw-cta-eco">
                 Nous contacter
             </a>
 

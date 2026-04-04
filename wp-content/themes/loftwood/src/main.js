@@ -224,8 +224,8 @@ function initPreloader() {
   const preloader = document.querySelector('.lw-preloader');
   if (!preloader) return;
 
-  // Minimum display: pastilles (1.1s) + crossfade (0.6s) + logo (0.8s) + progress (1.2s)
-  const minDuration = 3500;
+  // Minimum display: pastilles (1.1s) + wordmark (0.7s) + progress (1.2s)
+  const minDuration = 3200;
   const startTime = performance.now();
 
   window.addEventListener('load', () => {

@@ -67,13 +67,10 @@ $phone_clean = preg_replace('/\s+/', '', $phone);
             </div>
         </div>
 
-        <!-- Phase 2 : Logo complet qui apparaît (crossfade) -->
-        <div class="lw-preloader-logo-full">
-            <?php if (!empty($logo) && !empty($logo['url'])) : ?>
-                <img src="<?php echo esc_url($logo['url']); ?>" alt="Loftwood" />
-            <?php else : ?>
-                <img src="<?php echo esc_url(LOFTWOOD_URI . '/assets/images/logo_loftwood.svg'); ?>" alt="Loftwood" />
-            <?php endif; ?>
+        <!-- Phase 2 : Texte LOFTWOOD sous les pastilles -->
+        <div class="lw-preloader-wordmark">
+            <span class="lw-preloader-name">LOFT<strong>WOOD</strong><sup>®</sup></span>
+            <span class="lw-preloader-sub">PROMOTION IMMOBILIÈRE</span>
         </div>
 
         <!-- Phase 3 : Barre de progression -->

@@ -90,9 +90,6 @@
   display: flex;
   gap: 0.625rem;
   align-items: center;
-  /* Fade out pastilles when logo appears */
-  animation: pastilles-out 600ms var(--ease-loftwood) forwards;
-  animation-delay: 1600ms;
 }
 
 .lw-pastille {
@@ -144,43 +141,52 @@
   to { opacity: 1; }
 }
 
-@keyframes pastilles-out {
-  to { opacity: 0; transform: translateY(-10px) scale(0.95); }
-}
-
-/* ---- Phase 2 : Logo complet crossfade ---- */
-.lw-preloader-logo-full {
+/* ---- Phase 2 : Wordmark sous les pastilles ---- */
+.lw-preloader-wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
   opacity: 0;
-  transform: translateY(8px) scale(0.97);
-  animation: logo-enter 800ms var(--ease-loftwood) forwards;
-  animation-delay: 1700ms;
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform-origin: center top;
+  transform: translateY(8px);
+  animation: fade-in-up 700ms var(--ease-loftwood) forwards;
+  animation-delay: 1300ms;
 }
 
-.lw-preloader-logo-full img {
-  max-width: 220px;
-  height: auto;
+.lw-preloader-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  color: var(--color-slate);
+}
+
+.lw-preloader-name strong {
+  font-weight: 700;
+}
+
+.lw-preloader-name sup {
+  font-size: 0.5em;
+  vertical-align: super;
+  letter-spacing: 0;
+}
+
+.lw-preloader-sub {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.5625rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--color-slate);
+  opacity: 0;
+  transform: translateY(4px);
+  animation: fade-in-up 500ms var(--ease-loftwood) forwards;
+  animation-delay: 1700ms;
 }
 
 @media (min-width: 640px) {
-  .lw-preloader-logo-full img {
-    max-width: 280px;
-  }
-}
-
-@keyframes logo-enter {
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1) translateX(-50%);
-  }
-}
-
-/* Initial translateX for centering */
-.lw-preloader-logo-full {
-  transform: translateX(-50%) translateY(8px) scale(0.97);
+  .lw-preloader-name { font-size: 2.125rem; }
+  .lw-preloader-sub { font-size: 0.625rem; }
 }
 
 /* ---- Phase 3 : Progress bar ---- */
@@ -192,8 +198,8 @@
   overflow: hidden;
   opacity: 0;
   animation: fade-in-up 400ms ease forwards;
-  animation-delay: 2000ms;
-  margin-top: 3rem;
+  animation-delay: 1800ms;
+  margin-top: 0.5rem;
 }
 
 .lw-preloader-progress-bar {
@@ -202,7 +208,7 @@
   background: linear-gradient(90deg, var(--color-eco-green), var(--color-eco-green-light));
   border-radius: 2px;
   animation: progress-fill 1000ms var(--ease-loftwood) forwards;
-  animation-delay: 2200ms;
+  animation-delay: 2000ms;
 }
 
 @keyframes fade-in-up {

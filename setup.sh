@@ -248,8 +248,7 @@ services:
     restart: unless-stopped
 
   db:
-    image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password --skip-ssl
+    image: mariadb:11
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}

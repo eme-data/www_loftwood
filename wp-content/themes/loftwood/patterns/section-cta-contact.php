@@ -11,7 +11,7 @@ $phone = get_field('op_phone', 'option') ?: '05 61 35 20 34';
 <section class="bg-warm-white" style="padding-top: var(--section-gap); padding-bottom: var(--section-gap);">
     <div class="max-w-[800px] mx-auto px-6 text-center" data-reveal="scale">
         <p class="eco-badge mx-auto mb-6">Votre projet commence ici</p>
-        <h2 class="font-montserrat text-3xl lg:text-4xl font-semibold text-foreground mb-4">
+        <h2 class="section-title-serif text-4xl lg:text-5xl text-foreground mb-4">
             Un projet immobilier ?
         </h2>
         <p class="text-slate text-lg mb-8 max-w-xl mx-auto">

@@ -32,7 +32,7 @@ $brand_list = get_field('h_brand_list', $front_id);
             <?php if ($brand_content) : ?>
                 <div data-reveal="right">
                     <?php if (!empty($brand_content['title'])) : ?>
-                        <h2 class="font-montserrat text-3xl lg:text-4xl font-semibold text-foreground mb-6">
+                        <h2 class="section-title-serif text-4xl lg:text-5xl text-foreground mb-6">
                             <?php echo wp_kses_post($brand_content['title']); ?>
                         </h2>
                     <?php endif; ?>

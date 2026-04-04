@@ -37,11 +37,135 @@
     }
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     font-family: 'Inter', system-ui, sans-serif;
     color: #1a1a1a;
     -webkit-font-smoothing: antialiased;
+    cursor: none;
   }
+
+  /* Smooth scroll anchor offset for fixed header */
+  :target {
+    scroll-margin-top: 80px;
+  }
+}
+
+/* ============================================
+   PRELOADER — Page loading animation
+   ============================================ */
+
+.lw-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 600ms var(--ease-loftwood), visibility 600ms;
+}
+
+.lw-preloader.is-loaded {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.lw-preloader-logo {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #1a1a1a;
+  position: relative;
+  overflow: hidden;
+}
+
+.lw-preloader-logo strong {
+  font-weight: 700;
+}
+
+.lw-preloader-logo::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-eco-green), var(--color-eco-green-light), var(--color-bronze));
+  animation: preloader-line 1.5s var(--ease-loftwood) infinite;
+}
+
+@keyframes preloader-line {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ============================================
+   CUSTOM CURSOR — Premium feel
+   ============================================ */
+
+.lw-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-eco-green);
+  pointer-events: none;
+  z-index: 99999;
+  mix-blend-mode: difference;
+  transition: width 300ms var(--ease-loftwood),
+              height 300ms var(--ease-loftwood),
+              background 300ms ease;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+.lw-cursor-follower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(45, 90, 61, 0.3);
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: width 400ms var(--ease-loftwood),
+              height 400ms var(--ease-loftwood),
+              border-color 300ms ease;
+  will-change: transform;
+}
+
+.lw-cursor.is-hover {
+  width: 48px;
+  height: 48px;
+  background: rgba(45, 90, 61, 0.08);
+  mix-blend-mode: normal;
+}
+
+.lw-cursor-follower.is-hover {
+  width: 64px;
+  height: 64px;
+  border-color: var(--color-eco-green);
+}
+
+/* Hide custom cursor on touch/mobile */
+@media (hover: none), (pointer: coarse) {
+  body { cursor: auto; }
+  .lw-cursor, .lw-cursor-follower { display: none; }
+}
+
+/* Restore cursor on interactive elements for accessibility */
+a, button, input, textarea, select, [role="button"] {
+  cursor: none;
 }
 
 /* ============================================
@@ -436,11 +560,12 @@
 .lw-hero-text { max-width: 680px; }
 
 .lw-hero-title {
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 700;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.75rem, 7vw, 5rem);
+  font-weight: 600;
   color: white;
-  line-height: 1.1;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
   margin: 0 0 1.5rem 0;
 }
 
@@ -451,7 +576,10 @@
 
 .lw-hero-line em {
   font-style: normal;
-  color: var(--color-bronze-light);
+  background: linear-gradient(135deg, var(--color-bronze-light) 0%, #e8d5b5 50%, var(--color-bronze) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .lw-hero-subtitle {
@@ -610,6 +738,106 @@
 .input-loftwood:focus {
   border-bottom-color: var(--color-bronze);
   outline: none;
+}
+
+/* ============================================
+   SECTION TITLES — Serif premium feel
+   ============================================ */
+
+.section-title-serif {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+/* Section subtitle accent line */
+.section-subtitle-accent {
+  position: relative;
+  display: inline-block;
+}
+
+.section-subtitle-accent::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -3rem;
+  width: 2rem;
+  height: 1px;
+  background: var(--color-eco-green);
+}
+
+.section-subtitle-accent::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -3rem;
+  width: 2rem;
+  height: 1px;
+  background: var(--color-eco-green);
+}
+
+/* ============================================
+   SVG WAVE DIVIDERS — Organic transitions
+   ============================================ */
+
+.wave-divider {
+  position: relative;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.wave-divider svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.wave-divider--top {
+  margin-bottom: -1px;
+}
+
+.wave-divider--bottom {
+  margin-top: -1px;
+}
+
+/* ============================================
+   GLASSMORPHISM CARD — Premium overlay
+   ============================================ */
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+}
+
+/* ============================================
+   TEXT REVEAL — Character animation
+   ============================================ */
+
+.text-reveal-word {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.text-reveal-word > span {
+  display: inline-block;
+  transform: translateY(100%);
+  transition: transform 600ms var(--ease-loftwood);
+}
+
+.text-reveal-word.is-revealed > span {
+  transform: translateY(0);
+}
+
+/* ============================================
+   HOVER MAGNETIC — Premium interactive feel
+   ============================================ */
+
+.magnetic-hover {
+  transition: transform 300ms var(--ease-loftwood);
 }
 
 /* ============================================

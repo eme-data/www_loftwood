@@ -10,6 +10,11 @@ $phone = get_field('op_phone', 'option') ?: '05 61 35 20 34';
 $phone_clean = preg_replace('/\s+/', '', $phone);
 ?>
 
+<!-- Preloader -->
+<div class="lw-preloader" aria-hidden="true">
+    <div class="lw-preloader-logo">Loft<strong>wood</strong></div>
+</div>
+
 <header class="header-loftwood" id="site-header">
     <div class="lw-header-inner">
 

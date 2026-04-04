@@ -6,7 +6,12 @@
  */
 ?>
 
-<section class="bg-foreground-dark text-white py-20 lg:py-24">
+<div class="wave-divider--top">
+    <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height: 40px; width: 100%;">
+        <path d="M0 60L60 50C120 40 240 20 360 15C480 10 600 20 720 30C840 40 960 50 1080 45C1200 40 1320 20 1380 10L1440 0V60H0Z" fill="#2C3E44"/>
+    </svg>
+</div>
+<section class="bg-foreground-dark text-white py-20 lg:py-24" style="margin-top: -1px;">
     <div class="max-w-[1200px] mx-auto px-6">
 
         <div class="text-center mb-16" data-reveal="up">

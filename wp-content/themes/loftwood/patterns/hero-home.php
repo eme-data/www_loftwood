@@ -61,4 +61,11 @@ $btn = $first_slide ? ($first_slide['btn_txt'] ?? []) : [];
             <div class="lw-scroll-dot"></div>
         </div>
     </div>
+
+    <!-- Wave divider -->
+    <div class="wave-divider--bottom absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height: 60px; width: 100%;">
+            <path d="M0 40C240 80 480 0 720 40C960 80 1200 0 1440 40V80H0V40Z" fill="white"/>
+        </svg>
+    </div>
 </section>

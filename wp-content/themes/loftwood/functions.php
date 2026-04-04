@@ -51,7 +51,7 @@ function loftwood_enqueue_assets(): void
     // Google Fonts
     wp_enqueue_style(
         'loftwood-fonts',
-        'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap',
+        'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap',
         [],
         null
     );

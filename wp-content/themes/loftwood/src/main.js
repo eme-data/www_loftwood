@@ -169,10 +169,74 @@ function initMobileMenu() {
 }
 
 // ============================================
+// Custom Cursor — Premium interaction
+// ============================================
+
+function initCustomCursor() {
+  // Skip on touch devices
+  if (window.matchMedia('(hover: none)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const cursor = document.createElement('div');
+  cursor.className = 'lw-cursor';
+  const follower = document.createElement('div');
+  follower.className = 'lw-cursor-follower';
+  document.body.appendChild(cursor);
+  document.body.appendChild(follower);
+
+  let cx = 0, cy = 0; // cursor position
+  let fx = 0, fy = 0; // follower position
+
+  document.addEventListener('mousemove', (e) => {
+    cx = e.clientX;
+    cy = e.clientY;
+    cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+  }, { passive: true });
+
+  // Smooth follower
+  function animateFollower() {
+    fx += (cx - fx) * 0.12;
+    fy += (cy - fy) * 0.12;
+    follower.style.transform = `translate(${fx}px, ${fy}px) translate(-50%, -50%)`;
+    requestAnimationFrame(animateFollower);
+  }
+  requestAnimationFrame(animateFollower);
+
+  // Hover state on interactive elements
+  const hoverTargets = document.querySelectorAll('a, button, [role="button"], .card-loftwood');
+  hoverTargets.forEach((el) => {
+    el.addEventListener('mouseenter', () => {
+      cursor.classList.add('is-hover');
+      follower.classList.add('is-hover');
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.classList.remove('is-hover');
+      follower.classList.remove('is-hover');
+    });
+  });
+}
+
+// ============================================
+// Preloader — Page load animation
+// ============================================
+
+function initPreloader() {
+  const preloader = document.querySelector('.lw-preloader');
+  if (!preloader) return;
+
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      preloader.classList.add('is-loaded');
+    }, 300);
+  });
+}
+
+// ============================================
 // Init
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
+  initPreloader();
   initScrollReveal();
   initStickyHeader();
   initCounters();
@@ -181,4 +245,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initParallax();
   initProgressBar();
   initMobileMenu();
+  initCustomCursor();
 });

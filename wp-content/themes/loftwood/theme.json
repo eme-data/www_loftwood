@@ -6,38 +6,71 @@
     "color": {
       "palette": [
         {
-          "slug": "primary",
-          "color": "#1a1a1a",
-          "name": "Primary"
+          "slug": "bronze",
+          "color": "#b9a380",
+          "name": "Bronze"
         },
         {
-          "slug": "secondary",
-          "color": "#6b7280",
-          "name": "Secondary"
+          "slug": "slate",
+          "color": "#535D6A",
+          "name": "Slate"
         },
         {
-          "slug": "accent",
-          "color": "#d97706",
-          "name": "Accent"
+          "slug": "deep-purple",
+          "color": "#2E2269",
+          "name": "Deep Purple"
         },
         {
-          "slug": "background",
-          "color": "#ffffff",
-          "name": "Background"
+          "slug": "cream",
+          "color": "#FBFAF8",
+          "name": "Cream"
+        },
+        {
+          "slug": "warm-white",
+          "color": "#F7EEE8",
+          "name": "Warm White"
         },
         {
           "slug": "foreground",
           "color": "#1a1a1a",
           "name": "Foreground"
+        },
+        {
+          "slug": "background",
+          "color": "#ffffff",
+          "name": "Background"
         }
       ]
     },
     "typography": {
       "fontFamilies": [
         {
-          "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif",
-          "name": "System",
-          "slug": "system"
+          "fontFamily": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+          "name": "Inter",
+          "slug": "inter",
+          "fontFace": [
+            {
+              "fontFamily": "Inter",
+              "fontWeight": "100 900",
+              "fontDisplay": "swap",
+              "fontStyle": "normal",
+              "src": ["https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"]
+            }
+          ]
+        },
+        {
+          "fontFamily": "'Montserrat', sans-serif",
+          "name": "Montserrat",
+          "slug": "montserrat",
+          "fontFace": [
+            {
+              "fontFamily": "Montserrat",
+              "fontWeight": "100 900",
+              "fontDisplay": "swap",
+              "fontStyle": "normal",
+              "src": ["https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap"]
+            }
+          ]
         }
       ],
       "fontSizes": [
@@ -45,7 +78,7 @@
         { "slug": "medium", "size": "1rem", "name": "Medium" },
         { "slug": "large", "size": "1.25rem", "name": "Large" },
         { "slug": "x-large", "size": "1.5rem", "name": "Extra Large" },
-        { "slug": "xx-large", "size": "2.5rem", "name": "Huge" }
+        { "slug": "xx-large", "size": "clamp(2rem, 5vw, 3.125rem)", "name": "Huge" }
       ]
     },
     "layout": {
@@ -62,21 +95,35 @@
       "text": "var(--wp--preset--color--foreground)"
     },
     "typography": {
-      "fontFamily": "var(--wp--preset--font-family--system)",
+      "fontFamily": "var(--wp--preset--font-family--inter)",
       "fontSize": "var(--wp--preset--font-size--medium)",
       "lineHeight": "1.6"
     },
     "elements": {
       "link": {
         "color": {
-          "text": "var(--wp--preset--color--accent)"
+          "text": "var(--wp--preset--color--deep-purple)"
+        },
+        ":hover": {
+          "color": {
+            "text": "var(--wp--preset--color--bronze)"
+          }
+        }
+      },
+      "heading": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--montserrat)",
+          "fontWeight": "500"
         }
       },
       "h1": {
-        "typography": { "fontSize": "var(--wp--preset--font-size--xx-large)" }
+        "typography": { "fontSize": "clamp(2rem, 5vw, 3.125rem)" }
       },
       "h2": {
-        "typography": { "fontSize": "var(--wp--preset--font-size--x-large)" }
+        "typography": { "fontSize": "clamp(1.5rem, 4vw, 2.5rem)" }
+      },
+      "h3": {
+        "typography": { "fontSize": "clamp(1.25rem, 3vw, 2rem)" }
       }
     }
   },

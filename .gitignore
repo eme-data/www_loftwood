@@ -27,6 +27,10 @@ node_modules/
 # Build
 wp-content/themes/loftwood/dist/
 
+# Données du site existant
+public_html/
+OLD/
+
 # OS
 .DS_Store
 Thumbs.db

@@ -1,3 +1,243 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ============================================
+   LOFTWOOD — Design Tokens & Motion System
+   ============================================ */
+
+@layer base {
+  :root {
+    /* Easing signatures */
+    --ease-loftwood: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-enter: cubic-bezier(0.0, 0, 0.2, 1);
+    --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+    /* Duration scale */
+    --duration-fast: 200ms;
+    --duration-normal: 400ms;
+    --duration-slow: 600ms;
+    --duration-slower: 800ms;
+
+    /* Spacing rhythm */
+    --section-gap: clamp(4rem, 8vw, 8rem);
+  }
+
+  /* Respect user preferences */
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --duration-fast: 0ms;
+      --duration-normal: 0ms;
+      --duration-slow: 0ms;
+      --duration-slower: 0ms;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ============================================
+   Scroll Reveal System
+   Elements start hidden, revealed by IntersectionObserver
+   ============================================ */
+
+@layer components {
+  /* Base state: hidden before reveal */
+  [data-reveal] {
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+
+  [data-reveal="up"] {
+    transform: translateY(30px);
+  }
+
+  [data-reveal="left"] {
+    transform: translateX(-30px);
+  }
+
+  [data-reveal="right"] {
+    transform: translateX(30px);
+  }
+
+  [data-reveal="scale"] {
+    transform: scale(0.95);
+  }
+
+  [data-reveal="fade"] {
+    transform: none;
+  }
+
+  /* Revealed state */
+  [data-reveal].is-revealed {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+    transition:
+      opacity var(--duration-slow) var(--ease-loftwood),
+      transform var(--duration-slow) var(--ease-loftwood);
+  }
+
+  /* Stagger delays for grouped elements */
+  [data-reveal-stagger] > [data-reveal]:nth-child(1) { transition-delay: 0ms; }
+  [data-reveal-stagger] > [data-reveal]:nth-child(2) { transition-delay: 120ms; }
+  [data-reveal-stagger] > [data-reveal]:nth-child(3) { transition-delay: 240ms; }
+  [data-reveal-stagger] > [data-reveal]:nth-child(4) { transition-delay: 360ms; }
+  [data-reveal-stagger] > [data-reveal]:nth-child(5) { transition-delay: 480ms; }
+  [data-reveal-stagger] > [data-reveal]:nth-child(6) { transition-delay: 600ms; }
+
+  /* ============================================
+     Card — Programme cards, blog cards
+     ============================================ */
+
+  .card-loftwood {
+    transition:
+      transform var(--duration-normal) var(--ease-loftwood),
+      box-shadow var(--duration-normal) var(--ease-loftwood);
+  }
+
+  .card-loftwood:hover {
+    transform: translateY(-8px);
+    box-shadow:
+      0 20px 40px -12px rgba(83, 93, 106, 0.15),
+      0 8px 16px -8px rgba(83, 93, 106, 0.1);
+  }
+
+  .card-loftwood .card-image {
+    overflow: hidden;
+  }
+
+  .card-loftwood .card-image img {
+    transition: transform var(--duration-slower) var(--ease-loftwood);
+  }
+
+  .card-loftwood:hover .card-image img {
+    transform: scale(1.05);
+  }
+
+  /* ============================================
+     Buttons
+     ============================================ */
+
+  .btn-loftwood {
+    position: relative;
+    overflow: hidden;
+    transition:
+      color var(--duration-normal) var(--ease-enter),
+      transform var(--duration-fast) var(--ease-loftwood);
+  }
+
+  .btn-loftwood::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--btn-fill, #b9a380);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-normal) var(--ease-loftwood);
+    z-index: -1;
+  }
+
+  .btn-loftwood:hover::before {
+    transform: scaleX(1);
+  }
+
+  .btn-loftwood:active {
+    transform: scale(0.97);
+  }
+
+  /* ============================================
+     Links — animated underline
+     ============================================ */
+
+  .link-loftwood {
+    position: relative;
+    text-decoration: none;
+  }
+
+  .link-loftwood::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: currentColor;
+    transition:
+      width var(--duration-normal) var(--ease-loftwood),
+      left var(--duration-normal) var(--ease-loftwood);
+  }
+
+  .link-loftwood:hover::after {
+    width: 100%;
+    left: 0;
+  }
+
+  /* ============================================
+     Header — sticky with backdrop blur
+     ============================================ */
+
+  .header-loftwood {
+    transition:
+      transform var(--duration-normal) var(--ease-loftwood),
+      background-color var(--duration-normal) var(--ease-enter),
+      backdrop-filter var(--duration-normal) var(--ease-enter);
+  }
+
+  .header-loftwood.is-scrolled {
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .header-loftwood.is-hidden {
+    transform: translateY(-100%);
+  }
+
+  /* ============================================
+     Hero — Ken Burns on background image
+     ============================================ */
+
+  .hero-image {
+    animation: ken-burns 8s ease-out both;
+  }
+
+  /* ============================================
+     Form inputs — animated underline
+     ============================================ */
+
+  .input-loftwood {
+    border-bottom: 2px solid #C4C4C4;
+    transition: border-color var(--duration-normal) var(--ease-enter);
+  }
+
+  .input-loftwood:focus {
+    border-bottom-color: #b9a380;
+    outline: none;
+  }
+
+  /* ============================================
+     Image skeleton loading
+     ============================================ */
+
+  .img-skeleton {
+    background: linear-gradient(
+      90deg,
+      #F7EEE8 25%,
+      #FBFAF8 50%,
+      #F7EEE8 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+  }
+}

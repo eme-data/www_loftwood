@@ -261,6 +261,10 @@ until curl -sf http://localhost:8080 > /dev/null 2>&1; do
 done
 echo "[✓] WordPress accessible."
 
+echo "[*] Correction des permissions..."
+docker compose exec -T wordpress chown -R www-data:www-data /var/www/html/wp-content
+docker compose exec -T wordpress chmod -R 755 /var/www/html/wp-content
+
 echo "[*] Installation de WordPress..."
 docker compose exec -T wpcli wp core install \
     --url="$WORDPRESS_URL" \
@@ -276,7 +280,10 @@ docker compose exec -T wpcli wp option update blogdescription "Promotion immobil
 docker compose exec -T wpcli wp option update timezone_string "Europe/Paris" --allow-root
 docker compose exec -T wpcli wp option update date_format "j F Y" --allow-root
 docker compose exec -T wpcli wp option update time_format "H:i" --allow-root
-docker compose exec -T wpcli wp option update WPLANG "fr_FR" --allow-root
+
+echo "[*] Installation de la langue française..."
+docker compose exec -T wordpress mkdir -p /var/www/html/wp-content/languages
+docker compose exec -T wordpress chown www-data:www-data /var/www/html/wp-content/languages
 docker compose exec -T wpcli wp language core install fr_FR --allow-root
 docker compose exec -T wpcli wp site switch-language fr_FR --allow-root
 

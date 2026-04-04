@@ -15,12 +15,11 @@ $phone_clean = preg_replace('/\s+/', '', $phone);
 
         <!-- Logo -->
         <a href="<?php echo esc_url(home_url('/')); ?>" class="lw-logo">
-            <?php if ($logo) : ?>
+            <?php if (!empty($logo) && !empty($logo['url'])) : ?>
                 <img src="<?php echo esc_url($logo['url']); ?>"
                      alt="<?php echo esc_attr(get_bloginfo('name')); ?>" />
-            <?php else : ?>
-                <span>Loft<strong>wood</strong></span>
             <?php endif; ?>
+            <span class="lw-logo-text <?php echo (!empty($logo) && !empty($logo['url'])) ? 'sr-only' : ''; ?>">Loft<strong>wood</strong></span>
         </a>
 
         <!-- Navigation desktop — items principaux seulement -->

@@ -152,6 +152,124 @@
   }
 
   /* ============================================
+     WordPress Navigation Menu
+     ============================================ */
+
+  /* Reset WP menu defaults */
+  .menu,
+  .sub-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Desktop nav: horizontal layout */
+  nav .menu {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  nav .menu > .menu-item > a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--wp--preset--color--slate, #535D6A);
+    text-decoration: none;
+    padding: 0.5rem 0;
+    transition: color var(--duration-fast) var(--ease-enter);
+    white-space: nowrap;
+  }
+
+  nav .menu > .menu-item > a:hover {
+    color: var(--wp--preset--color--deep-purple, #2E2269);
+  }
+
+  /* Dropdown submenus */
+  .menu-item {
+    position: relative;
+  }
+
+  .menu-item .sub-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 240px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px -8px rgba(0,0,0,0.12), 0 4px 12px -4px rgba(0,0,0,0.08);
+    padding: 0.5rem 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition:
+      opacity var(--duration-fast) var(--ease-enter),
+      transform var(--duration-fast) var(--ease-enter),
+      visibility var(--duration-fast);
+    z-index: 100;
+  }
+
+  .menu-item:hover > .sub-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .sub-menu .menu-item a {
+    display: block;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.8125rem;
+    color: var(--wp--preset--color--slate, #535D6A);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-enter),
+                background-color var(--duration-fast) var(--ease-enter);
+    white-space: nowrap;
+  }
+
+  .sub-menu .menu-item a:hover {
+    color: var(--wp--preset--color--deep-purple, #2E2269);
+    background-color: var(--wp--preset--color--cream, #FBFAF8);
+  }
+
+  /* Hide "back" menu items from old theme */
+  .smd-menu-back {
+    display: none;
+  }
+
+  /* Mobile menu styles */
+  #mobile-menu .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  #mobile-menu .menu .menu-item a {
+    display: block;
+    padding: 0.625rem 0;
+    color: #1a1a1a;
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+
+  #mobile-menu .sub-menu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    background: transparent;
+    padding: 0 0 0 1rem;
+    border-left: 2px solid var(--wp--preset--color--bronze, #b9a380);
+  }
+
+  #mobile-menu .sub-menu .menu-item a {
+    font-weight: 400;
+    font-size: 0.875rem;
+    color: var(--wp--preset--color--slate, #535D6A);
+    padding: 0.375rem 0;
+  }
+
+  /* ============================================
      Links — animated underline
      ============================================ */
 

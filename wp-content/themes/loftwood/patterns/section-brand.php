@@ -56,7 +56,7 @@ $brand_list = get_field('h_brand_list', $front_id);
 
         <!-- Brand pillars -->
         <?php if (!empty($brand_list)) : ?>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20" data-reveal-stagger>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-20" data-reveal-stagger>
                 <?php foreach ($brand_list as $item) : ?>
                     <div class="text-center p-8 rounded-xl bg-white shadow-sm" data-reveal="up">
                         <?php if (!empty($item['image']['url'])) : ?>

@@ -60,7 +60,7 @@ $terms = get_the_terms(get_the_ID(), 'programmes_categories');
                 </div>
             <?php endif; ?>
 
-            <a href="#contact-programme" class="btn-loftwood inline-flex items-center px-8 py-4 bg-bronze text-white font-semibold rounded hover:bg-bronze-dark transition-colors self-center">
+            <a href="#contact-programme" class="btn-loftwood inline-flex items-center px-8 py-4 bg-eco-green text-white font-semibold rounded-md hover:bg-eco-green-light transition-all hover:-translate-y-0.5 hover:shadow-lg self-center">
                 Demander une documentation
             </a>
         </div>

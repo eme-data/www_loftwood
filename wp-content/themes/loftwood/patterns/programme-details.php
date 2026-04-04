@@ -89,7 +89,7 @@ $apartments = get_field('pt_apartments');
                                     <tr class="hover:bg-cream/50 transition-colors">
                                         <td class="px-6 py-4 font-medium"><?php echo esc_html($apt['type'] ?? ''); ?></td>
                                         <td class="px-6 py-4 text-slate"><?php echo esc_html($apt['surface'] ?? ''); ?></td>
-                                        <td class="px-6 py-4 font-semibold text-deep-purple"><?php echo esc_html($apt['price'] ?? ''); ?></td>
+                                        <td class="px-6 py-4 font-semibold text-eco-green"><?php echo esc_html($apt['price'] ?? ''); ?></td>
                                         <td class="px-6 py-4">
                                             <?php if (!empty($apt['available'])) : ?>
                                                 <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Disponible</span>

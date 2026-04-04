@@ -16,9 +16,14 @@
           "name": "Slate"
         },
         {
-          "slug": "deep-purple",
-          "color": "#2E2269",
-          "name": "Deep Purple"
+          "slug": "eco-green",
+          "color": "#2D5A3D",
+          "name": "Eco Green"
+        },
+        {
+          "slug": "eco-green-light",
+          "color": "#3A7A52",
+          "name": "Eco Green Light"
         },
         {
           "slug": "cream",
@@ -34,6 +39,11 @@
           "slug": "foreground",
           "color": "#1a1a1a",
           "name": "Foreground"
+        },
+        {
+          "slug": "foreground-dark",
+          "color": "#2C3E44",
+          "name": "Foreground Dark"
         },
         {
           "slug": "background",
@@ -71,6 +81,20 @@
               "src": ["https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap"]
             }
           ]
+        },
+        {
+          "fontFamily": "'Cormorant Garamond', Georgia, serif",
+          "name": "Cormorant",
+          "slug": "cormorant",
+          "fontFace": [
+            {
+              "fontFamily": "Cormorant Garamond",
+              "fontWeight": "400 700",
+              "fontDisplay": "swap",
+              "fontStyle": "normal",
+              "src": ["https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap"]
+            }
+          ]
         }
       ],
       "fontSizes": [
@@ -102,7 +126,7 @@
     "elements": {
       "link": {
         "color": {
-          "text": "var(--wp--preset--color--deep-purple)"
+          "text": "var(--wp--preset--color--eco-green)"
         },
         ":hover": {
           "color": {

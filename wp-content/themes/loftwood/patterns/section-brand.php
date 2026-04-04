@@ -45,7 +45,7 @@ $brand_list = get_field('h_brand_list', $front_id);
 
                     <?php if (!empty($brand_content['button']['text'])) : ?>
                         <a href="<?php echo esc_url($brand_content['button']['link']); ?>"
-                           class="btn-loftwood inline-flex items-center px-8 py-4 bg-bronze text-white font-semibold rounded hover:bg-bronze-dark transition-colors">
+                           class="btn-loftwood inline-flex items-center gap-2 px-8 py-4 bg-eco-green text-white font-semibold rounded-md hover:bg-eco-green-light transition-all hover:-translate-y-0.5 hover:shadow-lg">
                             <?php echo esc_html($brand_content['button']['text']); ?>
                         </a>
                     <?php endif; ?>

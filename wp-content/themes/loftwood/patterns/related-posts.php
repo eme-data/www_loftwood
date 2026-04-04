@@ -41,7 +41,7 @@ if (!$related->have_posts()) return;
                         <?php echo esc_html(get_the_date('j M Y')); ?>
                     </time>
                     <h3 class="font-montserrat text-base font-semibold mt-1">
-                        <a href="<?php the_permalink(); ?>" class="link-loftwood text-foreground hover:text-deep-purple">
+                        <a href="<?php the_permalink(); ?>" class="link-loftwood text-foreground hover:text-eco-green">
                             <?php the_title(); ?>
                         </a>
                     </h3>

@@ -55,7 +55,7 @@ if (!$related->have_posts()) return;
 
                     <div class="p-6">
                         <h3 class="font-montserrat text-lg font-semibold mb-2">
-                            <a href="<?php the_permalink(); ?>" class="link-loftwood text-foreground hover:text-deep-purple">
+                            <a href="<?php the_permalink(); ?>" class="link-loftwood text-foreground hover:text-eco-green">
                                 <?php the_title(); ?>
                             </a>
                         </h3>

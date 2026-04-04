@@ -69,7 +69,7 @@ $programmes = new WP_Query($args);
                         <!-- Content -->
                         <div class="p-6">
                             <h3 class="font-montserrat text-xl font-semibold mb-2">
-                                <a href="<?php the_permalink(); ?>" class="link-loftwood text-foreground hover:text-deep-purple">
+                                <a href="<?php the_permalink(); ?>" class="link-loftwood text-foreground hover:text-eco-green">
                                     <?php the_title(); ?>
                                 </a>
                             </h3>
@@ -92,7 +92,7 @@ $programmes = new WP_Query($args);
                                 <?php if (!empty($info['price'])) : ?>
                                     <span class="text-sm">
                                         <span class="text-slate">À partir de</span>
-                                        <span class="font-semibold text-deep-purple"><?php echo esc_html($info['price']); ?> €</span>
+                                        <span class="font-semibold text-eco-green"><?php echo esc_html($info['price']); ?> €</span>
                                     </span>
                                 <?php endif; ?>
 
@@ -110,7 +110,7 @@ $programmes = new WP_Query($args);
 
             <?php if (!empty($program_btn['text'])) : ?>
                 <div class="text-center mt-12" data-reveal="up">
-                    <a href="<?php echo esc_url($program_btn['link']); ?>" class="btn-loftwood inline-flex items-center px-8 py-4 bg-deep-purple text-white font-semibold rounded hover:bg-opacity-90 transition-colors">
+                    <a href="<?php echo esc_url($program_btn['link']); ?>" class="btn-loftwood inline-flex items-center px-8 py-4 bg-eco-green text-white font-semibold rounded-md hover:bg-eco-green-light transition-all hover:-translate-y-0.5 hover:shadow-lg">
                         <?php echo esc_html($program_btn['text']); ?>
                     </a>
                 </div>

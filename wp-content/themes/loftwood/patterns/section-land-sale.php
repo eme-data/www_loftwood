@@ -44,7 +44,7 @@ $sale_content = get_field('h_sale_content', $front_id);
                     </div>
                 <?php endif; ?>
 
-                <a href="/contact/" class="btn-loftwood inline-flex items-center px-8 py-4 bg-bronze text-white font-semibold rounded hover:bg-bronze-dark transition-colors">
+                <a href="/contactez-nous/" class="btn-loftwood inline-flex items-center gap-2 px-8 py-4 bg-eco-green text-white font-semibold rounded-md hover:bg-eco-green-light transition-all hover:-translate-y-0.5 hover:shadow-lg">
                     <?php echo esc_html(!empty($sale_content['button']['text']) ? $sale_content['button']['text'] : 'Proposer votre terrain'); ?>
                 </a>
             </div>

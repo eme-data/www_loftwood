@@ -61,7 +61,7 @@ $posts = new WP_Query([
                             </div>
 
                             <h3 class="font-montserrat text-lg font-semibold mb-3">
-                                <a href="<?php the_permalink(); ?>" class="link-loftwood text-foreground hover:text-deep-purple">
+                                <a href="<?php the_permalink(); ?>" class="link-loftwood text-foreground hover:text-eco-green">
                                     <?php the_title(); ?>
                                 </a>
                             </h3>
@@ -77,7 +77,7 @@ $posts = new WP_Query([
             <?php if (!empty($news_btn['text'])) : ?>
                 <div class="text-center mt-12" data-reveal="up">
                     <a href="<?php echo esc_url($news_btn['link']); ?>"
-                       class="btn-loftwood inline-flex items-center px-8 py-4 border-2 border-deep-purple text-deep-purple font-semibold rounded hover:bg-deep-purple hover:text-white transition-colors">
+                       class="btn-loftwood inline-flex items-center px-8 py-4 border-2 border-eco-green text-eco-green font-semibold rounded-md hover:bg-eco-green hover:text-white transition-all hover:-translate-y-0.5">
                         <?php echo esc_html($news_btn['text']); ?>
                     </a>
                 </div>

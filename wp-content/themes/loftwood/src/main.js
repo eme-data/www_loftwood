@@ -177,6 +177,8 @@ function initCustomCursor() {
   if (window.matchMedia('(hover: none)').matches) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+  document.body.classList.add('has-custom-cursor');
+
   const cursor = document.createElement('div');
   cursor.className = 'lw-cursor';
   const follower = document.createElement('div');
@@ -383,11 +385,48 @@ function initTestimonialCarousel() {
 }
 
 // ============================================
+// Back to Top
+// ============================================
+
+function initBackToTop() {
+  const btn = document.createElement('button');
+  btn.className = 'lw-back-to-top';
+  btn.setAttribute('aria-label', 'Retour en haut');
+  btn.innerHTML = `<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>`;
+  document.body.appendChild(btn);
+
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('is-visible', window.scrollY > 400);
+  }, { passive: true });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+// ============================================
+// Skip to Content — Accessibility
+// ============================================
+
+function initSkipToContent() {
+  const main = document.querySelector('main');
+  if (!main) return;
+  main.id = 'main-content';
+
+  const link = document.createElement('a');
+  link.href = '#main-content';
+  link.className = 'skip-to-content';
+  link.textContent = 'Aller au contenu principal';
+  document.body.prepend(link);
+}
+
+// ============================================
 // Init
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
   initPreloader();
+  initSkipToContent();
   initScrollReveal();
   initStickyHeader();
   initCounters();
@@ -399,4 +438,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initCustomCursor();
   initLightbox();
   initTestimonialCarousel();
+  initBackToTop();
 });

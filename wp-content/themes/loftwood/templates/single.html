@@ -1,26 +1,27 @@
 <!-- wp:template-part {"slug":"header","area":"header"} /-->
 
-<!-- wp:group {"tagName":"main","className":"pt-24","layout":{"type":"constrained","contentSize":"800px"}} -->
-<main class="wp-block-group pt-24">
+<!-- wp:group {"tagName":"main","className":"pt-24 pb-8","layout":{"type":"constrained","contentSize":"800px"}} -->
+<main class="wp-block-group pt-24 pb-8">
+
     <!-- wp:group {"className":"mb-8"} -->
     <div class="wp-block-group mb-8">
-        <!-- wp:post-terms {"term":"category","className":"text-sm text-bronze font-medium uppercase tracking-wider"} /-->
-        <!-- wp:post-title {"level":1,"className":"font-montserrat mt-2"} /-->
-        <!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap"},"className":"text-sm text-slate mt-4 gap-4"} -->
-        <div class="wp-block-group text-sm text-slate mt-4 gap-4">
+        <!-- wp:post-terms {"term":"category","className":"text-sm text-eco-green font-semibold uppercase tracking-wider"} /-->
+        <!-- wp:post-title {"level":1,"className":"section-title-serif text-4xl lg:text-5xl mt-3"} /-->
+        <!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap"},"className":"text-sm text-slate mt-4 gap-4 items-center"} -->
+        <div class="wp-block-group text-sm text-slate mt-4 gap-4 items-center">
             <!-- wp:post-date /-->
-            <!-- wp:post-author-name /-->
+            <!-- wp:post-author-name {"className":"font-medium"} /-->
         </div>
         <!-- /wp:group -->
     </div>
     <!-- /wp:group -->
 
-    <!-- wp:post-featured-image {"className":"rounded-lg overflow-hidden mb-8 img-skeleton"} /-->
+    <!-- wp:post-featured-image {"className":"rounded-2xl overflow-hidden mb-10 img-skeleton"} /-->
 
     <!-- wp:post-content {"layout":{"type":"constrained"}} /-->
 
-    <!-- wp:separator {"className":"my-16 opacity-20"} -->
-    <hr class="wp-block-separator has-alpha-channel-opacity my-16 opacity-20"/>
+    <!-- wp:separator {"className":"my-12 opacity-10"} -->
+    <hr class="wp-block-separator has-alpha-channel-opacity my-12 opacity-10"/>
     <!-- /wp:separator -->
 
     <!-- wp:pattern {"slug":"loftwood/related-posts"} /-->

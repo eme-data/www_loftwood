@@ -45,13 +45,103 @@
     font-family: 'Inter', system-ui, sans-serif;
     color: #1a1a1a;
     -webkit-font-smoothing: antialiased;
-    cursor: none;
+  }
+
+  /* Text selection */
+  ::selection {
+    background: rgba(45, 90, 61, 0.15);
+    color: #1a1a1a;
   }
 
   /* Smooth scroll anchor offset for fixed header */
   :target {
     scroll-margin-top: 80px;
   }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f5f5f3;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-slate);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-eco-green);
+  }
+
+  /* Firefox scrollbar */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-slate) #f5f5f3;
+  }
+}
+
+/* ============================================
+   SKIP TO CONTENT — Accessibility
+   ============================================ */
+
+.skip-to-content {
+  position: fixed;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100000;
+  background: var(--color-eco-green);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0 0 8px 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 200ms ease;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* ============================================
+   BACK TO TOP — Scroll button
+   ============================================ */
+
+.lw-back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: white;
+  color: var(--color-slate);
+  border: 1px solid rgba(83, 93, 106, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 90;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 400ms var(--ease-loftwood);
+  cursor: pointer;
+}
+
+.lw-back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.lw-back-to-top:hover {
+  background: var(--color-eco-green);
+  color: white;
+  border-color: var(--color-eco-green);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(45, 90, 61, 0.25);
 }
 
 /* ============================================
@@ -208,9 +298,19 @@
   .lw-cursor, .lw-cursor-follower { display: none; }
 }
 
-/* Restore cursor on interactive elements for accessibility */
-a, button, input, textarea, select, [role="button"] {
+/* Custom cursor only when JS has initialized it */
+.has-custom-cursor,
+.has-custom-cursor a,
+.has-custom-cursor button,
+.has-custom-cursor [role="button"] {
   cursor: none;
+}
+
+/* Keep default cursor for form inputs */
+.has-custom-cursor input,
+.has-custom-cursor textarea,
+.has-custom-cursor select {
+  cursor: auto;
 }
 
 /* ============================================
@@ -740,7 +840,21 @@ a, button, input, textarea, select, [role="button"] {
   border-color: rgba(45, 90, 61, 0.12);
 }
 
-.card-loftwood .card-image { overflow: hidden; }
+.card-loftwood .card-image {
+  overflow: hidden;
+  position: relative;
+}
+.card-loftwood .card-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.3) 100%);
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+.card-loftwood:hover .card-image::after {
+  opacity: 1;
+}
 .card-loftwood .card-image img {
   transition: transform 600ms var(--ease-loftwood);
 }
@@ -1324,4 +1438,146 @@ a, button, input, textarea, select, [role="button"] {
 @keyframes shimmer {
   from { background-position: 200% 0; }
   to { background-position: -200% 0; }
+}
+
+/* ============================================
+   PAGINATION — Blog archive
+   ============================================ */
+
+.wp-block-query-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 3rem;
+}
+
+.wp-block-query-pagination-numbers .page-numbers {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 0.5rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-slate);
+  text-decoration: none;
+  transition: all 250ms ease;
+  border: 1px solid transparent;
+}
+
+.wp-block-query-pagination-numbers .page-numbers:hover {
+  background: var(--color-cream);
+  border-color: rgba(83, 93, 106, 0.1);
+}
+
+.wp-block-query-pagination-numbers .page-numbers.current {
+  background: var(--color-eco-green);
+  color: white;
+  font-weight: 600;
+}
+
+.wp-block-query-pagination-previous,
+.wp-block-query-pagination-next {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-slate);
+  text-decoration: none;
+  border-radius: 8px;
+  border: 1px solid rgba(83, 93, 106, 0.15);
+  transition: all 250ms ease;
+}
+
+.wp-block-query-pagination-previous:hover,
+.wp-block-query-pagination-next:hover {
+  background: var(--color-eco-green);
+  color: white;
+  border-color: var(--color-eco-green);
+}
+
+/* ============================================
+   BLOG SINGLE — Reading time & nav
+   ============================================ */
+
+.lw-reading-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--color-slate);
+  opacity: 0.7;
+}
+
+.lw-post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(83, 93, 106, 0.1);
+}
+
+.lw-post-nav a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1.25rem;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 250ms ease;
+}
+
+.lw-post-nav a:hover {
+  background: var(--color-cream);
+}
+
+.lw-post-nav-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-eco-green);
+}
+
+.lw-post-nav-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.lw-post-nav a:last-child {
+  text-align: right;
+}
+
+/* ============================================
+   BREADCRUMBS
+   ============================================ */
+
+.lw-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--color-slate);
+  opacity: 0.7;
+  padding: 1rem 0;
+}
+
+.lw-breadcrumbs a {
+  color: var(--color-slate);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.lw-breadcrumbs a:hover {
+  color: var(--color-eco-green);
+}
+
+.lw-breadcrumbs span.sep {
+  opacity: 0.4;
 }

@@ -1,30 +1,38 @@
 <!-- wp:template-part {"slug":"header","area":"header"} /-->
 
-<!-- wp:group {"tagName":"main","className":"pt-24 pb-16 min-h-[60vh] flex items-center","layout":{"type":"constrained","contentSize":"600px"}} -->
-<main class="wp-block-group pt-24 pb-16 min-h-[60vh] flex items-center">
+<!-- wp:group {"tagName":"main","className":"pt-24 pb-16 min-h-[70vh] flex items-center","layout":{"type":"constrained","contentSize":"600px"}} -->
+<main class="wp-block-group pt-24 pb-16 min-h-[70vh] flex items-center">
     <!-- wp:group {"className":"text-center","layout":{"type":"default"}} -->
     <div class="wp-block-group text-center">
-        <!-- wp:heading {"level":1,"className":"font-montserrat text-6xl text-bronze mb-4"} -->
-        <h1 class="wp-block-heading font-montserrat text-6xl text-bronze mb-4">404</h1>
+
+        <!-- wp:heading {"level":1,"className":"section-title-serif text-8xl lg:text-9xl text-eco-green/20 mb-2"} -->
+        <h1 class="wp-block-heading section-title-serif text-8xl lg:text-9xl text-eco-green/20 mb-2">404</h1>
         <!-- /wp:heading -->
 
-        <!-- wp:heading {"level":2,"className":"font-montserrat text-2xl mb-4"} -->
-        <h2 class="wp-block-heading font-montserrat text-2xl mb-4">Page introuvable</h2>
+        <!-- wp:heading {"level":2,"className":"font-montserrat text-2xl lg:text-3xl mb-4"} -->
+        <h2 class="wp-block-heading font-montserrat text-2xl lg:text-3xl mb-4">Page introuvable</h2>
         <!-- /wp:heading -->
 
-        <!-- wp:paragraph {"className":"text-slate text-lg mb-8"} -->
-        <p class="text-slate text-lg mb-8">Désolé, la page que vous recherchez n'existe pas ou a été déplacée.</p>
+        <!-- wp:paragraph {"className":"text-slate text-lg mb-10 max-w-md mx-auto"} -->
+        <p class="text-slate text-lg mb-10 max-w-md mx-auto">La page que vous recherchez n'existe pas ou a été déplacée. Vous pouvez revenir à l'accueil ou découvrir nos programmes.</p>
         <!-- /wp:paragraph -->
 
-        <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
-        <div class="wp-block-buttons">
-            <!-- wp:button {"className":"btn-loftwood bg-bronze text-white border-0","style":{"border":{"radius":"4px"}}} -->
-            <div class="wp-block-button btn-loftwood bg-bronze text-white border-0">
-                <a class="wp-block-button__link wp-element-button" href="/" style="border-radius:4px">Retour à l'accueil</a>
+        <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"},"className":"gap-4"} -->
+        <div class="wp-block-buttons gap-4">
+            <!-- wp:button {"className":"btn-loftwood bg-eco-green text-white border-0 hover:bg-eco-green-light","style":{"border":{"radius":"6px"}}} -->
+            <div class="wp-block-button btn-loftwood bg-eco-green text-white border-0 hover:bg-eco-green-light">
+                <a class="wp-block-button__link wp-element-button" href="/" style="border-radius:6px">Retour à l'accueil</a>
+            </div>
+            <!-- /wp:button -->
+
+            <!-- wp:button {"className":"btn-loftwood border-2 border-eco-green text-eco-green bg-transparent hover:bg-eco-green hover:text-white","style":{"border":{"radius":"6px"}}} -->
+            <div class="wp-block-button btn-loftwood border-2 border-eco-green text-eco-green bg-transparent hover:bg-eco-green hover:text-white">
+                <a class="wp-block-button__link wp-element-button" href="/nos-programmes-neufs/" style="border-radius:6px">Voir nos programmes</a>
             </div>
             <!-- /wp:button -->
         </div>
         <!-- /wp:buttons -->
+
     </div>
     <!-- /wp:group -->
 </main>

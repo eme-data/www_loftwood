@@ -1,0 +1,39 @@
+# WordPress core
+wp-admin/
+wp-includes/
+wp-*.php
+index.php
+license.txt
+readme.html
+xmlrpc.php
+
+# wp-content (on ne versionne que notre thème et nos plugins custom)
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/cache/
+wp-content/plugins/*
+!wp-content/plugins/.gitkeep
+wp-content/themes/*
+!wp-content/themes/loftwood/
+
+# Environnement
+.env
+.env.local
+docker-data/
+
+# Dependencies
+node_modules/
+
+# Build
+wp-content/themes/loftwood/dist/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

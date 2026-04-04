@@ -1581,3 +1581,277 @@
 .lw-breadcrumbs span.sep {
   opacity: 0.4;
 }
+
+/* ============================================
+   COOKIE CONSENT — RGPD banner
+   ============================================ */
+
+.lw-cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9998;
+  background: white;
+  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 2rem;
+  transform: translateY(100%);
+  transition: transform 600ms var(--ease-loftwood);
+}
+
+.lw-cookie-banner.is-visible {
+  transform: translateY(0);
+}
+
+.lw-cookie-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.lw-cookie-text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.lw-cookie-text p {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--color-slate);
+  margin: 0;
+}
+
+.lw-cookie-text a {
+  color: var(--color-eco-green);
+  text-decoration: underline;
+}
+
+.lw-cookie-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.lw-cookie-accept {
+  padding: 0.625rem 1.5rem;
+  background: var(--color-eco-green);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 200ms ease;
+}
+
+.lw-cookie-accept:hover {
+  background: var(--color-eco-green-light);
+}
+
+.lw-cookie-refuse {
+  padding: 0.625rem 1.5rem;
+  background: transparent;
+  color: var(--color-slate);
+  border: 1px solid rgba(83, 93, 106, 0.2);
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.lw-cookie-refuse:hover {
+  border-color: var(--color-slate);
+}
+
+@media (max-width: 640px) {
+  .lw-cookie-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .lw-cookie-actions {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ============================================
+   CONTACT FORM 7 — Theme styling
+   ============================================ */
+
+.wpcf7-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.wpcf7-form label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.375rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.wpcf7-form input[type="text"],
+.wpcf7-form input[type="email"],
+.wpcf7-form input[type="tel"],
+.wpcf7-form input[type="url"],
+.wpcf7-form input[type="number"],
+.wpcf7-form textarea,
+.wpcf7-form select {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid rgba(83, 93, 106, 0.2);
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9375rem;
+  color: #1a1a1a;
+  background: white;
+  transition: border-color 300ms ease, box-shadow 300ms ease;
+}
+
+.wpcf7-form input:focus,
+.wpcf7-form textarea:focus,
+.wpcf7-form select:focus {
+  outline: none;
+  border-color: var(--color-eco-green);
+  box-shadow: 0 0 0 3px rgba(45, 90, 61, 0.1);
+}
+
+.wpcf7-form textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.wpcf7-form input[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2.5rem;
+  background: var(--color-eco-green);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 200ms ease, transform 100ms ease, box-shadow 200ms ease;
+  align-self: flex-start;
+}
+
+.wpcf7-form input[type="submit"]:hover {
+  background: var(--color-eco-green-light);
+  box-shadow: 0 4px 12px rgba(45, 90, 61, 0.25);
+}
+
+.wpcf7-form input[type="submit"]:active {
+  transform: scale(0.97);
+}
+
+/* Validation states */
+.wpcf7-not-valid {
+  border-color: #e53e3e !important;
+}
+
+.wpcf7-not-valid-tip {
+  color: #e53e3e;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.wpcf7-response-output {
+  padding: 1rem 1.25rem !important;
+  border-radius: 8px !important;
+  font-size: 0.875rem;
+  margin: 1rem 0 0 !important;
+}
+
+.wpcf7-mail-sent-ok {
+  background: rgba(45, 90, 61, 0.08);
+  border-color: var(--color-eco-green) !important;
+  color: var(--color-eco-green);
+}
+
+.wpcf7 form.sent .wpcf7-response-output {
+  background: rgba(45, 90, 61, 0.08);
+  border-color: var(--color-eco-green) !important;
+  color: var(--color-eco-green);
+}
+
+.wpcf7 form.failed .wpcf7-response-output,
+.wpcf7 form.aborted .wpcf7-response-output {
+  background: rgba(229, 62, 62, 0.08);
+  border-color: #e53e3e !important;
+  color: #e53e3e;
+}
+
+/* Checkbox / RGPD consent */
+.wpcf7-form .wpcf7-acceptance {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.wpcf7-form .wpcf7-acceptance input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--color-eco-green);
+}
+
+/* ============================================
+   NEWSLETTER INLINE FORM
+   ============================================ */
+
+.lw-newsletter-form {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 420px;
+}
+
+.lw-newsletter-form input[type="email"] {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  font-size: 0.875rem;
+}
+
+.lw-newsletter-form input[type="email"]::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.lw-newsletter-form input[type="email"]:focus {
+  outline: none;
+  border-color: var(--color-eco-green-light);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.lw-newsletter-form button {
+  padding: 0.75rem 1.25rem;
+  background: var(--color-eco-green-light);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 200ms ease;
+}
+
+.lw-newsletter-form button:hover {
+  background: var(--color-eco-green);
+}

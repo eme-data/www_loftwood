@@ -198,3 +198,125 @@ function loftwood_register_patterns(): void
     }
 }
 add_action('init', 'loftwood_register_patterns');
+
+/**
+ * SEO — Meta tags, Open Graph, structured data
+ */
+function loftwood_seo_meta(): void
+{
+    if (is_admin()) return;
+
+    $title = wp_title('|', false, 'right') . get_bloginfo('name');
+    $description = get_bloginfo('description');
+    $url = home_url(add_query_arg([], $_SERVER['REQUEST_URI'] ?? ''));
+    $image = '';
+
+    if (is_singular()) {
+        $post = get_queried_object();
+        if ($post && !empty($post->post_excerpt)) {
+            $description = wp_strip_all_tags($post->post_excerpt);
+        } elseif ($post) {
+            $description = wp_trim_words(wp_strip_all_tags($post->post_content), 30, '...');
+        }
+        if (has_post_thumbnail()) {
+            $image = get_the_post_thumbnail_url(null, 'hero-banner');
+        }
+    }
+
+    $description = esc_attr($description);
+    ?>
+    <meta name="description" content="<?php echo $description; ?>" />
+    <meta property="og:title" content="<?php echo esc_attr($title); ?>" />
+    <meta property="og:description" content="<?php echo $description; ?>" />
+    <meta property="og:url" content="<?php echo esc_url($url); ?>" />
+    <meta property="og:type" content="<?php echo is_singular() ? 'article' : 'website'; ?>" />
+    <meta property="og:site_name" content="Loftwood" />
+    <meta property="og:locale" content="fr_FR" />
+    <?php if ($image) : ?>
+        <meta property="og:image" content="<?php echo esc_url($image); ?>" />
+    <?php endif; ?>
+    <meta name="twitter:card" content="summary_large_image" />
+    <?php
+}
+add_action('wp_head', 'loftwood_seo_meta', 1);
+
+/**
+ * SEO — JSON-LD structured data for homepage
+ */
+function loftwood_structured_data(): void
+{
+    if (!is_front_page()) return;
+
+    $phone = get_field('op_phone', 'option') ?: '05 61 35 20 34';
+    $data = [
+        '@context'    => 'https://schema.org',
+        '@type'       => 'RealEstateAgent',
+        'name'        => 'Loftwood',
+        'description' => 'Promoteur immobilier éco-responsable spécialisé en construction ossature bois.',
+        'url'         => home_url('/'),
+        'telephone'   => $phone,
+        'address'     => [
+            '@type'           => 'PostalAddress',
+            'streetAddress'   => '20 Rue de Novital',
+            'addressLocality' => 'Gagnac-sur-Garonne',
+            'postalCode'      => '31150',
+            'addressCountry'  => 'FR',
+        ],
+        'areaServed'  => [
+            '@type' => 'Place',
+            'name'  => 'Haute-Garonne, Occitanie, France',
+        ],
+    ];
+
+    $logo = get_field('op_logo', 'option');
+    if (!empty($logo['url'])) {
+        $data['logo'] = $logo['url'];
+    }
+
+    echo '<script type="application/ld+json">' . wp_json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>' . "\n";
+}
+add_action('wp_head', 'loftwood_structured_data', 5);
+
+/**
+ * Performance — Preload fonts, add resource hints
+ */
+function loftwood_resource_hints(): void
+{
+    echo '<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />' . "\n";
+    echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />' . "\n";
+    echo '<link rel="dns-prefetch" href="https://www.googletagmanager.com" />' . "\n";
+}
+add_action('wp_head', 'loftwood_resource_hints', 0);
+
+/**
+ * Performance — Add loading="lazy" and decoding="async" to images
+ */
+function loftwood_lazy_images(string $content): string
+{
+    if (is_admin()) return $content;
+
+    $content = preg_replace(
+        '/<img(?![^>]*loading=)([^>]*)\/?>/i',
+        '<img loading="lazy" decoding="async"$1/>',
+        $content
+    );
+
+    return $content;
+}
+add_filter('the_content', 'loftwood_lazy_images');
+
+/**
+ * Performance — Remove WordPress emoji scripts
+ */
+remove_action('wp_head', 'print_emoji_detection_script', 7);
+remove_action('wp_print_styles', 'print_emoji_styles');
+
+/**
+ * Security — Remove WP version from head
+ */
+remove_action('wp_head', 'wp_generator');
+
+/**
+ * SEO — XML Sitemap enabled (WP 5.5+ built-in)
+ */
+// Already enabled by default in WordPress 5.5+

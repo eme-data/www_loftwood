@@ -421,6 +421,48 @@ function initSkipToContent() {
 }
 
 // ============================================
+// Cookie Consent — RGPD
+// ============================================
+
+function initCookieConsent() {
+  if (localStorage.getItem('lw-cookies') !== null) return;
+
+  const banner = document.createElement('div');
+  banner.className = 'lw-cookie-banner';
+  banner.innerHTML = `
+    <div class="lw-cookie-inner">
+      <div class="lw-cookie-text">
+        <p>Nous utilisons des cookies pour améliorer votre expérience et analyser le trafic du site.
+        En continuant, vous acceptez notre <a href="/politique-de-confidentialite/">politique de confidentialité</a>.</p>
+      </div>
+      <div class="lw-cookie-actions">
+        <button class="lw-cookie-accept">Accepter</button>
+        <button class="lw-cookie-refuse">Refuser</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(banner);
+
+  // Show after short delay
+  setTimeout(() => banner.classList.add('is-visible'), 1500);
+
+  const close = (accepted) => {
+    localStorage.setItem('lw-cookies', accepted ? 'accepted' : 'refused');
+    banner.classList.remove('is-visible');
+
+    if (accepted && typeof gtag === 'function') {
+      gtag('consent', 'update', {
+        analytics_storage: 'granted',
+        ad_storage: 'denied',
+      });
+    }
+  };
+
+  banner.querySelector('.lw-cookie-accept').addEventListener('click', () => close(true));
+  banner.querySelector('.lw-cookie-refuse').addEventListener('click', () => close(false));
+}
+
+// ============================================
 // Init
 // ============================================
 
@@ -439,4 +481,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initLightbox();
   initTestimonialCarousel();
   initBackToTop();
+  initCookieConsent();
 });

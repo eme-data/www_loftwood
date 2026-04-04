@@ -21,7 +21,10 @@ err()  { echo -e "${RED}[✗]${NC} $1"; exit 1; }
 # ============================================
 
 if [[ $EUID -eq 0 ]]; then
-    err "Ne pas exécuter en root. Utilisez un utilisateur avec sudo."
+    warn "Exécution en root détectée. Poursuite de l'installation..."
+    RUNNING_AS_ROOT=true
+else
+    RUNNING_AS_ROOT=false
 fi
 
 if ! grep -q "24.04" /etc/os-release 2>/dev/null; then
@@ -80,10 +83,14 @@ else
     sudo apt-get update -qq
     sudo apt-get install -y -qq docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-    # Ajouter l'utilisateur au groupe docker
-    sudo usermod -aG docker "$USER"
-    log "Docker installé. Groupe docker ajouté pour $USER."
-    warn "Si 'docker' échoue après l'install, déconnectez-vous et reconnectez-vous (ou: newgrp docker)"
+    # Ajouter l'utilisateur au groupe docker (inutile en root)
+    if [[ "$RUNNING_AS_ROOT" == false ]]; then
+        sudo usermod -aG docker "$USER"
+        log "Docker installé. Groupe docker ajouté pour $USER."
+        warn "Si 'docker' échoue après l'install, déconnectez-vous et reconnectez-vous (ou: newgrp docker)"
+    else
+        log "Docker installé (root, pas besoin du groupe docker)."
+    fi
 fi
 
 # ============================================
@@ -360,7 +367,7 @@ chmod +x "$SCRIPT_DIR/wp-setup.sh"
 # ============================================
 
 log "Lancement des containers Docker..."
-if groups "$USER" | grep -q '\bdocker\b'; then
+if [[ "$RUNNING_AS_ROOT" == true ]] || groups "$USER" | grep -q '\bdocker\b'; then
     docker compose up -d
     log "Containers démarrés."
 

@@ -144,9 +144,28 @@ fi
 # ============================================
 
 if [[ ! -f "$SCRIPT_DIR/.env" ]]; then
+    # Demander le domaine
+    echo ""
+    read -rp "  Nom de domaine (ex: dev.loftwood.fr) : " SITE_DOMAIN
+    SITE_DOMAIN=${SITE_DOMAIN:-localhost}
+
+    read -rp "  Email pour Let's Encrypt (ex: admin@loftwood.fr) : " ACME_EMAIL
+    ACME_EMAIL=${ACME_EMAIL:-admin@loftwood.fr}
+
+    if [[ "$SITE_DOMAIN" == "localhost" ]]; then
+        SITE_URL="http://localhost:8080"
+    else
+        SITE_URL="https://${SITE_DOMAIN}"
+    fi
+
     log "Création du fichier .env..."
-    cat > "$SCRIPT_DIR/.env" <<'ENVEOF'
-# Loftwood — Configuration locale
+    cat > "$SCRIPT_DIR/.env" <<ENVEOF
+# Loftwood — Configuration
+SITE_DOMAIN=${SITE_DOMAIN}
+SITE_URL=${SITE_URL}
+ACME_EMAIL=${ACME_EMAIL}
+
+# Base de données
 MYSQL_ROOT_PASSWORD=loftwood_root_2026
 MYSQL_DATABASE=loftwood
 MYSQL_USER=loftwood
@@ -157,29 +176,57 @@ WORDPRESS_DB_USER=loftwood
 WORDPRESS_DB_PASSWORD=loftwood_db_2026
 WORDPRESS_DB_NAME=loftwood
 
-# Site
-WORDPRESS_URL=http://localhost:8080
+# WordPress admin
+WORDPRESS_URL=${SITE_URL}
 WORDPRESS_TITLE=Loftwood
 WORDPRESS_ADMIN_USER=admin
 WORDPRESS_ADMIN_PASSWORD=admin_loftwood_2026
-WORDPRESS_ADMIN_EMAIL=admin@loftwood.fr
+WORDPRESS_ADMIN_EMAIL=${ACME_EMAIL}
 ENVEOF
     log "Fichier .env créé. Modifiez les mots de passe si nécessaire."
 else
     log "Fichier .env existant conservé."
 fi
 
+source "$SCRIPT_DIR/.env"
+
 # ============================================
 # 7. Mise à jour docker-compose pour .env
 # ============================================
 
-log "Mise à jour de docker-compose.yml pour utiliser .env..."
+log "Mise à jour de docker-compose.yml..."
+
+# Créer le dossier pour les certificats Let's Encrypt
+mkdir -p "$SCRIPT_DIR/letsencrypt"
+
 cat > "$SCRIPT_DIR/docker-compose.yml" <<'DCEOF'
 services:
+  traefik:
+    image: traefik:v3.4
+    command:
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      # HTTP -> HTTPS redirect
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      # Let's Encrypt
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt
+    restart: unless-stopped
+
   wordpress:
     image: wordpress:6.8-php8.3-apache
-    ports:
-      - "8080:80"
     environment:
       WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
@@ -189,6 +236,12 @@ services:
     volumes:
       - wordpress-data:/var/www/html
       - ./wp-content/themes/loftwood:/var/www/html/wp-content/themes/loftwood
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wordpress.rule=Host(`${SITE_DOMAIN}`)"
+      - "traefik.http.routers.wordpress.entrypoints=websecure"
+      - "traefik.http.routers.wordpress.tls.certresolver=letsencrypt"
+      - "traefik.http.services.wordpress.loadbalancer.server.port=80"
     depends_on:
       db:
         condition: service_healthy
@@ -212,12 +265,16 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    ports:
-      - "8081:80"
     environment:
       PMA_HOST: db
       PMA_USER: ${MYSQL_USER}
       PMA_PASSWORD: ${MYSQL_PASSWORD}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.phpmyadmin.rule=Host(`pma.${SITE_DOMAIN}`)"
+      - "traefik.http.routers.phpmyadmin.entrypoints=websecure"
+      - "traefik.http.routers.phpmyadmin.tls.certresolver=letsencrypt"
+      - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
     depends_on:
       - db
     restart: unless-stopped
@@ -256,9 +313,12 @@ set -euo pipefail
 source .env
 
 echo "[*] Attente que WordPress soit prêt..."
-until curl -sf http://localhost:8080 > /dev/null 2>&1; do
-    sleep 2
+# Vérifier via le container directement (pas de port exposé avec Traefik)
+until docker compose exec -T -u root wpcli wp db check --allow-root > /dev/null 2>&1; do
+    sleep 3
 done
+# Attendre aussi qu'Apache soit démarré
+sleep 5
 echo "[✓] WordPress accessible."
 
 echo "[*] Correction des permissions..."
@@ -285,6 +345,19 @@ docker compose exec -T -u root wpcli wp option update blogdescription "Promotion
 docker compose exec -T -u root wpcli wp option update timezone_string "Europe/Paris" --allow-root
 docker compose exec -T -u root wpcli wp option update date_format "j F Y" --allow-root
 docker compose exec -T -u root wpcli wp option update time_format "H:i" --allow-root
+
+echo "[*] Configuration HTTPS (reverse proxy Traefik)..."
+docker compose exec -T -u root wordpress bash -c 'cat >> /var/www/html/wp-config.php <<PHPEOF
+
+/* HTTPS derrière Traefik */
+if (isset(\$_SERVER["HTTP_X_FORWARDED_PROTO"]) && \$_SERVER["HTTP_X_FORWARDED_PROTO"] === "https") {
+    \$_SERVER["HTTPS"] = "on";
+}
+define("FORCE_SSL_ADMIN", true);
+PHPEOF'
+docker compose exec -T -u root wpcli wp option update siteurl "$WORDPRESS_URL" --allow-root
+docker compose exec -T -u root wpcli wp option update home "$WORDPRESS_URL" --allow-root
+echo "[✓] HTTPS configuré."
 
 echo "[*] Installation de la langue française..."
 docker compose exec -T -u root wpcli wp language core install fr_FR --allow-root
@@ -354,17 +427,18 @@ docker compose exec -T -u root wpcli wp menu item add-post "Menu Principal" "$AC
 docker compose exec -T -u root wpcli wp menu item add-post "Menu Principal" "$CONTACT_ID" --allow-root 2>/dev/null || true
 
 echo ""
-echo "  ╔═══════════════════════════════════════════╗"
-echo "  ║   WordPress configuré avec succès !       ║"
-echo "  ║                                           ║"
-echo "  ║   Site:       http://localhost:8080        ║"
-echo "  ║   Admin:      http://localhost:8080/wp-admin"
+echo "  ╔═══════════════════════════════════════════════╗"
+echo "  ║   WordPress configuré avec succès !           ║"
+echo "  ║                                               ║"
+echo "  ║   Site:       $WORDPRESS_URL"
+echo "  ║   Admin:      $WORDPRESS_URL/wp-admin"
 echo "  ║   User:       $WORDPRESS_ADMIN_USER"
 echo "  ║   Password:   $WORDPRESS_ADMIN_PASSWORD"
-echo "  ║   phpMyAdmin: http://localhost:8081        ║"
-echo "  ║                                           ║"
-echo "  ║   Thème Loftwood activé.                  ║"
-echo "  ╚═══════════════════════════════════════════╝"
+echo "  ║   phpMyAdmin: https://pma.$SITE_DOMAIN"
+echo "  ║                                               ║"
+echo "  ║   HTTPS:      Let's Encrypt via Traefik       ║"
+echo "  ║   Thème:      Loftwood activé                 ║"
+echo "  ╚═══════════════════════════════════════════════╝"
 echo ""
 echo "[!] N'oubliez pas d'installer ACF Pro manuellement"
 echo "    (plugin payant, non installable via WP-CLI)."
@@ -405,11 +479,12 @@ echo "  ╚═══════════════════════
 echo ""
 echo "  Commandes utiles :"
 echo ""
-echo "  Démarrer :    docker compose up -d"
-echo "  Arrêter :     docker compose down"
-echo "  Logs :        docker compose logs -f wordpress"
-echo "  WP-CLI :      docker compose exec wpcli wp --allow-root"
-echo "  Dev thème :   cd wp-content/themes/loftwood && npm run dev"
-echo "  Build thème : cd wp-content/themes/loftwood && npm run build"
-echo "  Reset DB :    docker compose down -v  (supprime les données !)"
+echo "  Démarrer :     docker compose up -d"
+echo "  Arrêter :      docker compose down"
+echo "  Logs WP :      docker compose logs -f wordpress"
+echo "  Logs Traefik : docker compose logs -f traefik"
+echo "  WP-CLI :       docker compose exec -u root wpcli wp --allow-root"
+echo "  Dev thème :    cd wp-content/themes/loftwood && npm run dev"
+echo "  Build thème :  cd wp-content/themes/loftwood && npm run build"
+echo "  Reset DB :     docker compose down -v  (supprime les données !)"
 echo ""

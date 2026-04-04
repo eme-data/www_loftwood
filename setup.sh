@@ -262,11 +262,16 @@ done
 echo "[✓] WordPress accessible."
 
 echo "[*] Correction des permissions..."
-docker compose exec -T wordpress chown -R www-data:www-data /var/www/html/wp-content
-docker compose exec -T wordpress chmod -R 755 /var/www/html/wp-content
+docker compose exec -T -u root wordpress bash -c "\
+    mkdir -p /var/www/html/wp-content/uploads && \
+    mkdir -p /var/www/html/wp-content/languages && \
+    mkdir -p /var/www/html/wp-content/upgrade && \
+    chown -R www-data:www-data /var/www/html/wp-content && \
+    chmod -R 755 /var/www/html/wp-content"
+echo "[✓] Permissions corrigées."
 
 echo "[*] Installation de WordPress..."
-docker compose exec -T wpcli wp core install \
+docker compose exec -T -u root wpcli wp core install \
     --url="$WORDPRESS_URL" \
     --title="$WORDPRESS_TITLE" \
     --admin_user="$WORDPRESS_ADMIN_USER" \
@@ -276,79 +281,77 @@ docker compose exec -T wpcli wp core install \
     --allow-root
 
 echo "[*] Configuration de base..."
-docker compose exec -T wpcli wp option update blogdescription "Promotion immobilière en ossature bois" --allow-root
-docker compose exec -T wpcli wp option update timezone_string "Europe/Paris" --allow-root
-docker compose exec -T wpcli wp option update date_format "j F Y" --allow-root
-docker compose exec -T wpcli wp option update time_format "H:i" --allow-root
+docker compose exec -T -u root wpcli wp option update blogdescription "Promotion immobilière en ossature bois" --allow-root
+docker compose exec -T -u root wpcli wp option update timezone_string "Europe/Paris" --allow-root
+docker compose exec -T -u root wpcli wp option update date_format "j F Y" --allow-root
+docker compose exec -T -u root wpcli wp option update time_format "H:i" --allow-root
 
 echo "[*] Installation de la langue française..."
-docker compose exec -T wordpress mkdir -p /var/www/html/wp-content/languages
-docker compose exec -T wordpress chown www-data:www-data /var/www/html/wp-content/languages
-docker compose exec -T wpcli wp language core install fr_FR --allow-root
-docker compose exec -T wpcli wp site switch-language fr_FR --allow-root
+docker compose exec -T -u root wpcli wp language core install fr_FR --allow-root
+docker compose exec -T -u root wpcli wp site switch-language fr_FR --allow-root
 
 echo "[*] Permaliens..."
-docker compose exec -T wpcli wp rewrite structure '/%postname%/' --allow-root
-docker compose exec -T wpcli wp rewrite flush --allow-root
+docker compose exec -T -u root wpcli wp rewrite structure '/%postname%/' --allow-root
+docker compose exec -T -u root wpcli wp rewrite flush --allow-root
 
 echo "[*] Activation du thème Loftwood..."
-docker compose exec -T wpcli wp theme activate loftwood --allow-root
+docker compose exec -T -u root wpcli wp theme activate loftwood --allow-root
 
 echo "[*] Suppression des thèmes par défaut..."
-docker compose exec -T wpcli wp theme delete twentytwentyfive --allow-root 2>/dev/null || true
-docker compose exec -T wpcli wp theme delete twentytwentyfour --allow-root 2>/dev/null || true
-docker compose exec -T wpcli wp theme delete twentytwentythree --allow-root 2>/dev/null || true
+docker compose exec -T -u root wpcli wp theme delete twentytwentyfive --allow-root 2>/dev/null || true
+docker compose exec -T -u root wpcli wp theme delete twentytwentyfour --allow-root 2>/dev/null || true
+docker compose exec -T -u root wpcli wp theme delete twentytwentythree --allow-root 2>/dev/null || true
 
 echo "[*] Installation des plugins essentiels..."
-docker compose exec -T wpcli wp plugin install contact-form-7 --activate --allow-root
-docker compose exec -T wpcli wp plugin install wordpress-seo --activate --allow-root
-docker compose exec -T wpcli wp plugin install svg-support --activate --allow-root
+docker compose exec -T -u root wpcli wp plugin install contact-form-7 --activate --allow-root
+docker compose exec -T -u root wpcli wp plugin install wordpress-seo --activate --allow-root
+docker compose exec -T -u root wpcli wp plugin install svg-support --activate --allow-root
 
 echo "[*] Suppression des plugins par défaut..."
-docker compose exec -T wpcli wp plugin delete hello --allow-root 2>/dev/null || true
-docker compose exec -T wpcli wp plugin delete akismet --allow-root 2>/dev/null || true
+docker compose exec -T -u root wpcli wp plugin delete hello --allow-root 2>/dev/null || true
+docker compose exec -T -u root wpcli wp plugin delete akismet --allow-root 2>/dev/null || true
 
 echo "[*] Création des pages de base..."
-docker compose exec -T wpcli wp post create --post_type=page --post_title="Accueil" --post_status=publish --allow-root
-docker compose exec -T wpcli wp post create --post_type=page --post_title="Nos programmes" --post_status=publish --allow-root
-docker compose exec -T wpcli wp post create --post_type=page --post_title="La Marque Loft Wood" --post_status=publish --allow-root
-docker compose exec -T wpcli wp post create --post_type=page --post_title="Pourquoi l'Ossature Bois" --post_status=publish --allow-root
-docker compose exec -T wpcli wp post create --post_type=page --post_title="Acheter dans le Neuf" --post_status=publish --allow-root
-docker compose exec -T wpcli wp post create --post_type=page --post_title="Actualités" --post_status=publish --allow-root
-docker compose exec -T wpcli wp post create --post_type=page --post_title="Contact" --post_status=publish --page_template="page-contact" --allow-root
-docker compose exec -T wpcli wp post create --post_type=page --post_title="Mentions légales" --post_status=publish --allow-root
-docker compose exec -T wpcli wp post create --post_type=page --post_title="Politique de confidentialité" --post_status=publish --allow-root
+docker compose exec -T -u root wpcli wp post create --post_type=page --post_title="Accueil" --post_status=publish --allow-root
+docker compose exec -T -u root wpcli wp post create --post_type=page --post_title="Nos programmes" --post_status=publish --allow-root
+docker compose exec -T -u root wpcli wp post create --post_type=page --post_title="La Marque Loft Wood" --post_status=publish --allow-root
+docker compose exec -T -u root wpcli wp post create --post_type=page --post_title="Pourquoi l'Ossature Bois" --post_status=publish --allow-root
+docker compose exec -T -u root wpcli wp post create --post_type=page --post_title="Acheter dans le Neuf" --post_status=publish --allow-root
+docker compose exec -T -u root wpcli wp post create --post_type=page --post_title="Actualités" --post_status=publish --allow-root
+docker compose exec -T -u root wpcli wp post create --post_type=page --post_title="Contact" --post_status=publish --page_template="page-contact" --allow-root
+docker compose exec -T -u root wpcli wp post create --post_type=page --post_title="Mentions légales" --post_status=publish --allow-root
+docker compose exec -T -u root wpcli wp post create --post_type=page --post_title="Politique de confidentialité" --post_status=publish --allow-root
 
 echo "[*] Configuration de la page d'accueil..."
-FRONT_ID=$(docker compose exec -T wpcli wp post list --post_type=page --name=accueil --field=ID --allow-root | tr -d '\r')
-BLOG_ID=$(docker compose exec -T wpcli wp post list --post_type=page --name=actualites --field=ID --allow-root | tr -d '\r')
+FRONT_ID=$(docker compose exec -T -u root wpcli wp post list --post_type=page --name=accueil --field=ID --allow-root | tr -d '\r')
+BLOG_ID=$(docker compose exec -T -u root wpcli wp post list --post_type=page --name=actualites --field=ID --allow-root | tr -d '\r')
 
-docker compose exec -T wpcli wp option update show_on_front page --allow-root
-docker compose exec -T wpcli wp option update page_on_front "$FRONT_ID" --allow-root
-docker compose exec -T wpcli wp option update page_for_posts "$BLOG_ID" --allow-root
+docker compose exec -T -u root wpcli wp option update show_on_front page --allow-root
+docker compose exec -T -u root wpcli wp option update page_on_front "$FRONT_ID" --allow-root
+docker compose exec -T -u root wpcli wp option update page_for_posts "$BLOG_ID" --allow-root
 
 echo "[*] Suppression du contenu par défaut..."
-docker compose exec -T wpcli wp post delete 1 --force --allow-root 2>/dev/null || true
-docker compose exec -T wpcli wp post delete 2 --force --allow-root 2>/dev/null || true
-docker compose exec -T wpcli wp post delete 3 --force --allow-root 2>/dev/null || true
+docker compose exec -T -u root wpcli wp post delete 1 --force --allow-root 2>/dev/null || true
+docker compose exec -T -u root wpcli wp post delete 2 --force --allow-root 2>/dev/null || true
+docker compose exec -T -u root wpcli wp post delete 3 --force --allow-root 2>/dev/null || true
 
 echo "[*] Création du menu principal..."
-docker compose exec -T wpcli wp menu create "Menu Principal" --allow-root
-docker compose exec -T wpcli wp menu location assign "Menu Principal" main_menu --allow-root
+docker compose exec -T -u root wpcli wp menu create "Menu Principal" --allow-root
+docker compose exec -T -u root wpcli wp menu location assign "Menu Principal" main_menu --allow-root
 
-PROGRAMMES_ID=$(docker compose exec -T wpcli wp post list --post_type=page --name="nos-programmes" --field=ID --allow-root | tr -d '\r')
-MARQUE_ID=$(docker compose exec -T wpcli wp post list --post_type=page --name="la-marque-loft-wood" --field=ID --allow-root | tr -d '\r')
-BOIS_ID=$(docker compose exec -T wpcli wp post list --post_type=page --name="pourquoi-lossature-bois" --field=ID --allow-root | tr -d '\r')
-ACHETER_ID=$(docker compose exec -T wpcli wp post list --post_type=page --name="acheter-dans-le-neuf" --field=ID --allow-root | tr -d '\r')
+PROGRAMMES_ID=$(docker compose exec -T -u root wpcli wp post list --post_type=page --name="nos-programmes" --field=ID --allow-root | tr -d '\r')
+MARQUE_ID=$(docker compose exec -T -u root wpcli wp post list --post_type=page --name="la-marque-loft-wood" --field=ID --allow-root | tr -d '\r')
+BOIS_ID=$(docker compose exec -T -u root wpcli wp post list --post_type=page --name="pourquoi-lossature-bois" --field=ID --allow-root | tr -d '\r')
+ACHETER_ID=$(docker compose exec -T -u root wpcli wp post list --post_type=page --name="acheter-dans-le-neuf" --field=ID --allow-root | tr -d '\r')
 ACTU_ID=$BLOG_ID
-CONTACT_ID=$(docker compose exec -T wpcli wp post list --post_type=page --name=contact --field=ID --allow-root | tr -d '\r')
+CONTACT_ID=$(docker compose exec -T -u root wpcli wp post list --post_type=page --name=contact --field=ID --allow-root | tr -d '\r')
 
-docker compose exec -T wpcli wp menu item add-post "Menu Principal" "$PROGRAMMES_ID" --allow-root 2>/dev/null || true
-docker compose exec -T wpcli wp menu item add-post "Menu Principal" "$MARQUE_ID" --allow-root 2>/dev/null || true
-docker compose exec -T wpcli wp menu item add-post "Menu Principal" "$BOIS_ID" --allow-root 2>/dev/null || true
-docker compose exec -T wpcli wp menu item add-post "Menu Principal" "$ACHETER_ID" --allow-root 2>/dev/null || true
-docker compose exec -T wpcli wp menu item add-post "Menu Principal" "$ACTU_ID" --allow-root 2>/dev/null || true
-docker compose exec -T wpcli wp menu item add-post "Menu Principal" "$CONTACT_ID" --allow-root 2>/dev/null || true
+docker compose exec -T -u root wpcli wp menu item add-post "Menu Principal" "$PROGRAMMES_ID" --allow-root 2>/dev/null || true
+docker compose exec -T -u root wpcli wp menu item add-post "Menu Principal" "$MARQUE_ID" --allow-root 2>/dev/null || true
+docker compose exec -T -u root wpcli wp menu item add-post "Menu Principal" "$BOIS_ID" --allow-root 2>/dev/null || true
+docker compose exec -T -u root wpcli wp menu item add-post "Menu Principal" "$ACHETER_ID" --allow-root 2>/dev/null || true
+docker compose exec -T -u root wpcli wp menu item add-post "Menu Principal" "$ACTU_ID" --allow-root 2>/dev/null || true
+docker compose exec -T -u root wpcli wp menu item add-post "Menu Principal" "$CONTACT_ID" --allow-root 2>/dev/null || true
 
 echo ""
 echo "  ╔═══════════════════════════════════════════╗"

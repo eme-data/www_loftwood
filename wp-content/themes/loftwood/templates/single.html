@@ -1,0 +1,30 @@
+<!-- wp:template-part {"slug":"header","area":"header"} /-->
+
+<!-- wp:group {"tagName":"main","className":"pt-24","layout":{"type":"constrained","contentSize":"800px"}} -->
+<main class="wp-block-group pt-24">
+    <!-- wp:group {"className":"mb-8"} -->
+    <div class="wp-block-group mb-8">
+        <!-- wp:post-terms {"term":"category","className":"text-sm text-bronze font-medium uppercase tracking-wider"} /-->
+        <!-- wp:post-title {"level":1,"className":"font-montserrat mt-2"} /-->
+        <!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap"},"className":"text-sm text-slate mt-4 gap-4"} -->
+        <div class="wp-block-group text-sm text-slate mt-4 gap-4">
+            <!-- wp:post-date /-->
+            <!-- wp:post-author-name /-->
+        </div>
+        <!-- /wp:group -->
+    </div>
+    <!-- /wp:group -->
+
+    <!-- wp:post-featured-image {"className":"rounded-lg overflow-hidden mb-8 img-skeleton"} /-->
+
+    <!-- wp:post-content {"layout":{"type":"constrained"}} /-->
+
+    <!-- wp:separator {"className":"my-16 opacity-20"} -->
+    <hr class="wp-block-separator has-alpha-channel-opacity my-16 opacity-20"/>
+    <!-- /wp:separator -->
+
+    <!-- wp:pattern {"slug":"loftwood/related-posts"} /-->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","area":"footer"} /-->

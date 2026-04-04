@@ -14,7 +14,7 @@ if (empty($gallery)) return;
 <section class="bg-cream" style="padding-top: var(--section-gap); padding-bottom: var(--section-gap);">
     <div class="max-w-[1200px] mx-auto px-6">
 
-        <h2 class="font-montserrat text-3xl font-semibold text-foreground text-center mb-12" data-reveal="up">
+        <h2 class="section-title-serif text-4xl lg:text-5xl text-foreground text-center mb-12" data-reveal="up">
             Galerie
         </h2>
 

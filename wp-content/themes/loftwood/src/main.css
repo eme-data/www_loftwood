@@ -998,6 +998,270 @@ a, button, input, textarea, select, [role="button"] {
 }
 
 /* ============================================
+   LIGHTBOX — Full-screen image viewer
+   ============================================ */
+
+.lw-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 400ms ease, visibility 400ms;
+  cursor: none;
+}
+
+.lw-lightbox.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lw-lightbox img {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 8px;
+  transform: scale(0.9);
+  transition: transform 500ms var(--ease-loftwood);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+.lw-lightbox.is-open img {
+  transform: scale(1);
+}
+
+.lw-lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  background: none;
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  transition: all 300ms ease;
+}
+
+.lw-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+  transform: rotate(90deg);
+}
+
+.lw-lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: none;
+  color: white;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  transition: all 300ms ease;
+}
+
+.lw-lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+}
+
+.lw-lightbox-prev { left: 1.5rem; }
+.lw-lightbox-next { right: 1.5rem; }
+
+.lw-lightbox-counter {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* ============================================
+   TESTIMONIALS — Client carousel
+   ============================================ */
+
+.lw-testimonials {
+  position: relative;
+  overflow: hidden;
+}
+
+.lw-testimonials-track {
+  display: flex;
+  transition: transform 600ms var(--ease-loftwood);
+}
+
+.lw-testimonial-slide {
+  flex: 0 0 100%;
+  padding: 0 1rem;
+}
+
+.lw-testimonial-card {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.lw-testimonial-quote {
+  position: relative;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--color-slate);
+  margin-bottom: 2rem;
+}
+
+.lw-testimonial-quote::before {
+  content: '\201C';
+  position: absolute;
+  top: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 5rem;
+  font-style: normal;
+  color: var(--color-eco-green-light);
+  opacity: 0.3;
+  line-height: 1;
+}
+
+.lw-testimonial-author {
+  font-weight: 600;
+  color: #1a1a1a;
+  font-size: 0.9375rem;
+}
+
+.lw-testimonial-role {
+  color: var(--color-slate);
+  font-size: 0.8125rem;
+  margin-top: 0.25rem;
+}
+
+.lw-testimonial-stars {
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-bronze);
+}
+
+/* Carousel dots */
+.lw-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2.5rem;
+}
+
+.lw-carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-slate);
+  opacity: 0.25;
+  cursor: pointer;
+  padding: 0;
+  transition: all 300ms ease;
+}
+
+.lw-carousel-dot.is-active {
+  opacity: 1;
+  background: var(--color-eco-green);
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* ============================================
+   TIMELINE — Construction phases
+   ============================================ */
+
+.lw-timeline {
+  position: relative;
+  padding-left: 3rem;
+}
+
+.lw-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.6875rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--color-eco-green-light), var(--color-bronze-light));
+}
+
+.lw-timeline-item {
+  position: relative;
+  padding-bottom: 3rem;
+}
+
+.lw-timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.lw-timeline-dot {
+  position: absolute;
+  left: -2.375rem;
+  top: 0.25rem;
+  width: 1.375rem;
+  height: 1.375rem;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid var(--color-eco-green);
+  z-index: 1;
+  transition: all 300ms ease;
+}
+
+.lw-timeline-item:hover .lw-timeline-dot {
+  background: var(--color-eco-green);
+  transform: scale(1.2);
+  box-shadow: 0 0 0 6px rgba(45, 90, 61, 0.12);
+}
+
+.lw-timeline-date {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-eco-green);
+  margin-bottom: 0.5rem;
+}
+
+.lw-timeline-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.lw-timeline-desc {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-slate);
+}
+
+/* ============================================
    IMAGE SKELETON
    ============================================ */
 

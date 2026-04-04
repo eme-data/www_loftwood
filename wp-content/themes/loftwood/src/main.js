@@ -232,6 +232,145 @@ function initPreloader() {
 }
 
 // ============================================
+// Lightbox — Full-screen image viewer
+// ============================================
+
+function initLightbox() {
+  const triggers = document.querySelectorAll('[data-lightbox]');
+  if (!triggers.length) return;
+
+  // Group images by gallery name
+  const galleries = {};
+  triggers.forEach((el) => {
+    const name = el.dataset.lightbox;
+    if (!galleries[name]) galleries[name] = [];
+    galleries[name].push(el.href || el.src);
+  });
+
+  // Create lightbox DOM
+  const lightbox = document.createElement('div');
+  lightbox.className = 'lw-lightbox';
+  lightbox.innerHTML = `
+    <button class="lw-lightbox-close" aria-label="Fermer">&times;</button>
+    <button class="lw-lightbox-nav lw-lightbox-prev" aria-label="Précédent">&#8249;</button>
+    <button class="lw-lightbox-nav lw-lightbox-next" aria-label="Suivant">&#8250;</button>
+    <img src="" alt="" />
+    <div class="lw-lightbox-counter"></div>
+  `;
+  document.body.appendChild(lightbox);
+
+  const img = lightbox.querySelector('img');
+  const counter = lightbox.querySelector('.lw-lightbox-counter');
+  let currentGallery = [];
+  let currentIndex = 0;
+
+  function open(galleryName, index) {
+    currentGallery = galleries[galleryName];
+    currentIndex = index;
+    show();
+    lightbox.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lightbox.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  function show() {
+    img.src = currentGallery[currentIndex];
+    counter.textContent = `${currentIndex + 1} / ${currentGallery.length}`;
+  }
+
+  function prev() {
+    currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+    show();
+  }
+
+  function next() {
+    currentIndex = (currentIndex + 1) % currentGallery.length;
+    show();
+  }
+
+  // Event listeners
+  triggers.forEach((el, i) => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const name = el.dataset.lightbox;
+      const indexInGallery = galleries[name].indexOf(el.href || el.src);
+      open(name, indexInGallery >= 0 ? indexInGallery : 0);
+    });
+  });
+
+  lightbox.querySelector('.lw-lightbox-close').addEventListener('click', close);
+  lightbox.querySelector('.lw-lightbox-prev').addEventListener('click', prev);
+  lightbox.querySelector('.lw-lightbox-next').addEventListener('click', next);
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('is-open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') prev();
+    if (e.key === 'ArrowRight') next();
+  });
+}
+
+// ============================================
+// Testimonial Carousel
+// ============================================
+
+function initTestimonialCarousel() {
+  const carousel = document.querySelector('.lw-testimonials');
+  if (!carousel) return;
+
+  const track = carousel.querySelector('.lw-testimonials-track');
+  const slides = carousel.querySelectorAll('.lw-testimonial-slide');
+  const dots = carousel.querySelectorAll('.lw-carousel-dot');
+  if (!slides.length) return;
+
+  let current = 0;
+  let autoplayTimer;
+
+  function goTo(index) {
+    current = index;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
+  }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      goTo(i);
+      resetAutoplay();
+    });
+  });
+
+  function autoplay() {
+    autoplayTimer = setInterval(() => {
+      goTo((current + 1) % slides.length);
+    }, 6000);
+  }
+
+  function resetAutoplay() {
+    clearInterval(autoplayTimer);
+    autoplay();
+  }
+
+  // Swipe support
+  let startX = 0;
+  track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', (e) => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      diff > 0 ? goTo(Math.min(current + 1, slides.length - 1)) : goTo(Math.max(current - 1, 0));
+      resetAutoplay();
+    }
+  }, { passive: true });
+
+  goTo(0);
+  autoplay();
+}
+
+// ============================================
 // Init
 // ============================================
 
@@ -246,4 +385,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initProgressBar();
   initMobileMenu();
   initCustomCursor();
+  initLightbox();
+  initTestimonialCarousel();
 });

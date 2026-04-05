@@ -154,30 +154,47 @@ function initImageReveal() {
 }
 
 // ============================================
-// Mobile Menu Toggle
+// Fullscreen Menu Toggle
 // ============================================
 
 function initMobileMenu() {
-  const toggle = document.getElementById('mobile-menu-toggle');
-  const menu = document.getElementById('mobile-menu');
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('fullscreen-menu');
+  const header = document.querySelector('.header-loftwood');
   if (!toggle || !menu) return;
 
-  toggle.addEventListener('click', () => {
-    const isOpen = menu.style.display === 'block';
-    menu.style.display = isOpen ? 'none' : 'block';
-    toggle.setAttribute('aria-expanded', !isOpen);
+  let isOpen = false;
 
-    // Animate hamburger
-    const bars = toggle.querySelectorAll('span');
-    if (!isOpen) {
-      bars[0].style.transform = 'rotate(45deg) translateY(7px)';
-      bars[1].style.opacity = '0';
-      bars[2].style.transform = 'rotate(-45deg) translateY(-7px)';
-    } else {
-      bars[0].style.transform = '';
-      bars[1].style.opacity = '';
-      bars[2].style.transform = '';
-    }
+  function openMenu() {
+    isOpen = true;
+    menu.classList.add('is-open');
+    toggle.classList.add('is-active');
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    if (header) header.style.zIndex = '1001';
+  }
+
+  function closeMenu() {
+    isOpen = false;
+    menu.classList.remove('is-open');
+    toggle.classList.remove('is-active');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    if (header) header.style.zIndex = '';
+  }
+
+  toggle.addEventListener('click', () => {
+    isOpen ? closeMenu() : openMenu();
+  });
+
+  // Close on nav link click
+  menu.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen) closeMenu();
   });
 }
 

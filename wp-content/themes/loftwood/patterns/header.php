@@ -37,16 +37,6 @@ $phone_clean = preg_replace('/\s+/', '', $phone);
             <span class="lw-logo-text <?php echo (!empty($logo) && !empty($logo['url'])) ? 'sr-only' : ''; ?>">Loft<strong>wood</strong></span>
         </a>
 
-        <!-- Navigation desktop — items principaux seulement -->
-        <nav class="lw-nav-desktop" id="main-nav">
-            <?php wp_nav_menu([
-                'theme_location' => 'main_menu',
-                'container'      => false,
-                'depth'          => 2,
-                'fallback_cb'    => false,
-            ]); ?>
-        </nav>
-
         <!-- Actions droite -->
         <div class="lw-header-actions">
             <a href="tel:<?php echo esc_attr($phone_clean); ?>" class="lw-header-phone" title="Appelez-nous">
@@ -55,29 +45,41 @@ $phone_clean = preg_replace('/\s+/', '', $phone);
                 </svg>
             </a>
 
-            <a href="<?php echo esc_url(home_url('/contactez-nous/')); ?>" class="lw-header-cta lw-cta-eco">
+            <a href="<?php echo esc_url(home_url('/contactez-nous/')); ?>" class="lw-header-cta">
                 Nous contacter
             </a>
 
-            <!-- Hamburger -->
-            <button type="button" id="mobile-menu-toggle" class="lw-hamburger" aria-label="Menu" aria-expanded="false">
-                <span></span><span></span><span></span>
+            <!-- Menu toggle -->
+            <button type="button" id="menu-toggle" class="lw-menu-toggle" aria-label="Menu" aria-expanded="false">
+                <span class="lw-menu-toggle-label">Menu</span>
+                <span class="lw-menu-toggle-icon">
+                    <span></span><span></span>
+                </span>
             </button>
         </div>
 
     </div>
 
-    <!-- Navigation mobile -->
-    <div id="mobile-menu" class="lw-mobile-menu">
-        <?php wp_nav_menu([
-            'theme_location' => 'main_menu',
-            'container'      => false,
-            'depth'          => 2,
-            'fallback_cb'    => false,
-        ]); ?>
-        <div class="lw-mobile-actions">
-            <a href="tel:<?php echo esc_attr($phone_clean); ?>"><?php echo esc_html($phone); ?></a>
-            <a href="<?php echo esc_url(home_url('/contactez-nous/')); ?>" class="lw-mobile-cta">Nous contacter</a>
+    <!-- Overlay menu plein écran -->
+    <div id="fullscreen-menu" class="lw-fullscreen-menu">
+        <div class="lw-fullscreen-menu-inner">
+            <nav class="lw-fullscreen-nav">
+                <?php wp_nav_menu([
+                    'theme_location' => 'main_menu',
+                    'container'      => false,
+                    'depth'          => 1,
+                    'fallback_cb'    => false,
+                ]); ?>
+            </nav>
+
+            <div class="lw-fullscreen-footer">
+                <div class="lw-fullscreen-contact">
+                    <a href="tel:<?php echo esc_attr($phone_clean); ?>"><?php echo esc_html($phone); ?></a>
+                    <span class="lw-fullscreen-sep">·</span>
+                    <a href="mailto:contact@loftwood.fr">contact@loftwood.fr</a>
+                </div>
+                <p class="lw-fullscreen-address">20 Rue de Novital — 31150 Gagnac-sur-Garonne</p>
+            </div>
         </div>
     </div>
 </header>

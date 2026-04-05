@@ -138,7 +138,7 @@ function animateCounter(el) {
 // Image lazy load fade-in
 // ============================================
 
-function initImageReveal() {
+function initLazyImages() {
   const images = document.querySelectorAll('img[loading="lazy"]');
 
   images.forEach((img) => {
@@ -537,7 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initStickyHeader();
   initCounters();
-  initImageReveal();
+  initLazyImages();
   initHero();
   initParallax();
   initProgressBar();

@@ -198,9 +198,12 @@ function initMobileMenu() {
   // Close on backdrop click
   backdrop.addEventListener('click', closeMenu);
 
-  // Close on nav link click
-  menu.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', closeMenu);
+  // Close on nav link click — let the link navigate first
+  menu.querySelectorAll('.lw-fullscreen-nav a').forEach((link) => {
+    link.addEventListener('click', () => {
+      // Small delay to let the browser start navigation
+      setTimeout(closeMenu, 150);
+    });
   });
 
   // Close on Escape

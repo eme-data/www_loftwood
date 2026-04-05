@@ -541,12 +541,13 @@
   width: 520px;
   height: 100vh;
   height: 100dvh;
-  z-index: 11111;
+  z-index: 11112;
   background: white;
   box-shadow: -5px 0 30px rgba(0, 0, 0, 0.12);
   transition: right 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  pointer-events: auto;
 }
 
 @media (max-width: 540px) {
@@ -568,16 +569,18 @@
   width: 100vw;
   height: 100vh;
   height: 100dvh;
-  z-index: 11110;
+  z-index: 11111;
   background: rgba(0, 0, 0, 0.3);
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: opacity 400ms ease, visibility 400ms;
 }
 
 .lw-menu-backdrop.is-visible {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 .lw-fullscreen-menu-inner {

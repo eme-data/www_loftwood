@@ -162,10 +162,10 @@ function initMobileMenu() {
   const menu = document.getElementById('fullscreen-menu');
   if (!toggle || !menu) return;
 
-  // Create backdrop
+  // Create backdrop — insert BEFORE the menu in the DOM
   const backdrop = document.createElement('div');
   backdrop.className = 'lw-menu-backdrop';
-  document.body.appendChild(backdrop);
+  menu.parentNode.insertBefore(backdrop, menu);
 
   let isOpen = false;
 

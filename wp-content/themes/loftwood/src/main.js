@@ -198,6 +198,11 @@ function initMobileMenu() {
   // Close on backdrop click
   backdrop.addEventListener('click', closeMenu);
 
+  // Prevent clicks inside the menu panel from reaching the backdrop
+  menu.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
   // Nav links: don't preventDefault — let browser navigate normally.
   // Page reload will naturally reset the menu state.
 

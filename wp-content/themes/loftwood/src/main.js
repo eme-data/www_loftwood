@@ -545,6 +545,16 @@ function initCookieConsent() {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Mark body as JS-ready so CSS can safely hide [data-reveal] elements
+  document.body.classList.add('js-ready');
+
+  // Safety net: if animations haven't triggered after 4s, reveal everything
+  setTimeout(() => {
+    document.querySelectorAll('[data-reveal]:not(.is-revealed)').forEach((el) => {
+      el.classList.add('is-revealed');
+    });
+  }, 4000);
+
   initPreloader();
   initSmoothScroll();
   initSkipToContent();

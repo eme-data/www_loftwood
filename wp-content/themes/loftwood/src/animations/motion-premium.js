@@ -17,7 +17,9 @@ export function initImageReveal() {
     down:  { from: 'inset(0 0 100% 0)', to: 'inset(0 0 0% 0)' },
   };
 
-  document.querySelectorAll('[data-reveal-image]').forEach((el) => {
+  const elements = document.querySelectorAll('[data-reveal-image]');
+
+  elements.forEach((el) => {
     const dir = el.dataset.revealImage || 'left';
     const d = directions[dir] || directions.left;
 
@@ -35,6 +37,15 @@ export function initImageReveal() {
       },
     });
   });
+
+  // Safety: reveal all images after 5s if ScrollTrigger didn't fire
+  if (elements.length) {
+    setTimeout(() => {
+      elements.forEach((el) => {
+        gsap.set(el, { clipPath: 'inset(0 0 0 0)' });
+      });
+    }, 5000);
+  }
 }
 
 /**

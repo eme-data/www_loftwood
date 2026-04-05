@@ -191,6 +191,10 @@ function initMobileMenu() {
     isOpen ? closeMenu() : openMenu();
   });
 
+  // Close button inside panel
+  const closeBtn = document.getElementById('menu-close');
+  if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+
   // Close on backdrop click
   backdrop.addEventListener('click', closeMenu);
 

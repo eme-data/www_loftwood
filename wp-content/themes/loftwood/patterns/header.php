@@ -60,9 +60,25 @@ $phone_clean = preg_replace('/\s+/', '', $phone);
 
     </div>
 
-    <!-- Overlay menu plein écran -->
+    <!-- Flyout menu (slide from right) -->
     <div id="fullscreen-menu" class="lw-fullscreen-menu">
         <div class="lw-fullscreen-menu-inner">
+            <!-- Header: logo + close -->
+            <div class="lw-flyout-header">
+                <a href="<?php echo esc_url(home_url('/')); ?>" class="lw-flyout-logo">
+                    <?php if (!empty($logo) && !empty($logo['url'])) : ?>
+                        <img src="<?php echo esc_url($logo['url']); ?>" alt="Loftwood" />
+                    <?php else : ?>
+                        <span>Loft<strong>wood</strong></span>
+                    <?php endif; ?>
+                </a>
+                <button type="button" class="lw-flyout-close" id="menu-close" aria-label="Fermer">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
             <nav class="lw-fullscreen-nav">
                 <?php wp_nav_menu([
                     'theme_location' => 'main_menu',

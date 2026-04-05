@@ -200,6 +200,65 @@ function loftwood_register_patterns(): void
 add_action('init', 'loftwood_register_patterns');
 
 /**
+ * Breadcrumbs
+ */
+function loftwood_breadcrumbs(): void
+{
+    if (is_front_page()) return;
+
+    echo '<nav class="lw-breadcrumbs" aria-label="Fil d\'Ariane">';
+    echo '<a href="' . esc_url(home_url('/')) . '">Accueil</a>';
+    echo '<span class="sep">›</span>';
+
+    if (is_singular('programmes')) {
+        echo '<a href="' . esc_url(get_post_type_archive_link('programmes')) . '">Programmes</a>';
+        echo '<span class="sep">›</span>';
+        echo '<span>' . esc_html(get_the_title()) . '</span>';
+    } elseif (is_singular('post')) {
+        echo '<a href="' . esc_url(get_permalink(get_option('page_for_posts'))) . '">Actualités</a>';
+        echo '<span class="sep">›</span>';
+        echo '<span>' . esc_html(get_the_title()) . '</span>';
+    } elseif (is_post_type_archive('programmes')) {
+        echo '<span>Programmes</span>';
+    } elseif (is_category()) {
+        echo '<a href="' . esc_url(get_permalink(get_option('page_for_posts'))) . '">Actualités</a>';
+        echo '<span class="sep">›</span>';
+        echo '<span>' . esc_html(single_cat_title('', false)) . '</span>';
+    } elseif (is_archive()) {
+        echo '<span>' . esc_html(get_the_archive_title()) . '</span>';
+    } elseif (is_search()) {
+        echo '<span>Recherche : ' . esc_html(get_search_query()) . '</span>';
+    } elseif (is_404()) {
+        echo '<span>Page introuvable</span>';
+    } elseif (is_page()) {
+        echo '<span>' . esc_html(get_the_title()) . '</span>';
+    }
+
+    echo '</nav>';
+}
+
+/**
+ * Back link for detail pages
+ */
+function loftwood_back_link(): void
+{
+    if (is_singular('programmes')) {
+        $url = get_post_type_archive_link('programmes');
+        $label = 'Tous les programmes';
+    } elseif (is_singular('post')) {
+        $url = get_permalink(get_option('page_for_posts')) ?: home_url('/');
+        $label = 'Toutes les actualités';
+    } else {
+        return;
+    }
+
+    echo '<a href="' . esc_url($url) . '" class="lw-back-link">';
+    echo '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0l7 7m-7-7l7-7"/></svg>';
+    echo esc_html($label);
+    echo '</a>';
+}
+
+/**
  * SEO — Meta tags, Open Graph, structured data
  */
 function loftwood_seo_meta(): void

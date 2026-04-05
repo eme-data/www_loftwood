@@ -1677,6 +1677,31 @@
   opacity: 0.4;
 }
 
+/* Back link */
+.lw-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-eco-green);
+  text-decoration: none;
+  transition: gap 300ms var(--ease-loftwood), color 200ms ease;
+}
+
+.lw-back-link:hover {
+  gap: 0.75rem;
+  color: var(--color-eco-green-light);
+}
+
+.lw-back-link svg {
+  transition: transform 300ms var(--ease-loftwood);
+}
+
+.lw-back-link:hover svg {
+  transform: translateX(-3px);
+}
+
 /* ============================================
    COOKIE CONSENT — RGPD banner
    ============================================ */

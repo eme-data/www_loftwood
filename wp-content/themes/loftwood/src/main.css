@@ -533,14 +533,14 @@
   background: white;
 }
 
-/* ---- Slide-in Panel Menu (right half) ---- */
+/* ---- Slide-in Panel Menu (right half, below header) ---- */
 .lw-fullscreen-menu {
   position: fixed;
-  top: 0;
+  top: 72px;
   right: 0;
   bottom: 0;
   width: 50vw;
-  z-index: 999;
+  z-index: 997;
   background: var(--color-foreground-dark);
   transform: translateX(100%);
   transition: transform 600ms var(--ease-loftwood);
@@ -562,11 +562,14 @@
   transform: translateX(0);
 }
 
-/* Backdrop overlay */
+/* Backdrop overlay (below header) */
 .lw-menu-backdrop {
   position: fixed;
-  inset: 0;
-  z-index: 998;
+  top: 72px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 996;
   background: rgba(0, 0, 0, 0.35);
   opacity: 0;
   visibility: hidden;
@@ -581,14 +584,14 @@
 }
 
 .lw-fullscreen-menu-inner {
-  padding: 8rem 4rem 3rem;
+  padding: 3rem 4rem 3rem;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
 @media (max-width: 640px) {
-  .lw-fullscreen-menu-inner { padding: 6rem 2rem 2rem; }
+  .lw-fullscreen-menu-inner { padding: 2rem 2rem 2rem; }
 }
 
 /* Nav items */

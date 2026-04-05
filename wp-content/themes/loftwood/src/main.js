@@ -160,7 +160,6 @@ function initLazyImages() {
 function initMobileMenu() {
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('fullscreen-menu');
-  const header = document.querySelector('.header-loftwood');
   if (!toggle || !menu) return;
 
   // Create backdrop
@@ -177,7 +176,6 @@ function initMobileMenu() {
     toggle.classList.add('is-active');
     toggle.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
-    if (header) header.style.zIndex = '1001';
   }
 
   function closeMenu() {
@@ -187,7 +185,6 @@ function initMobileMenu() {
     toggle.classList.remove('is-active');
     toggle.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
-    if (header) header.style.zIndex = '';
   }
 
   toggle.addEventListener('click', () => {

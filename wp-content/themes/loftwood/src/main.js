@@ -163,11 +163,17 @@ function initMobileMenu() {
   const header = document.querySelector('.header-loftwood');
   if (!toggle || !menu) return;
 
+  // Create backdrop
+  const backdrop = document.createElement('div');
+  backdrop.className = 'lw-menu-backdrop';
+  document.body.appendChild(backdrop);
+
   let isOpen = false;
 
   function openMenu() {
     isOpen = true;
     menu.classList.add('is-open');
+    backdrop.classList.add('is-visible');
     toggle.classList.add('is-active');
     toggle.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
@@ -177,6 +183,7 @@ function initMobileMenu() {
   function closeMenu() {
     isOpen = false;
     menu.classList.remove('is-open');
+    backdrop.classList.remove('is-visible');
     toggle.classList.remove('is-active');
     toggle.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
@@ -186,6 +193,9 @@ function initMobileMenu() {
   toggle.addEventListener('click', () => {
     isOpen ? closeMenu() : openMenu();
   });
+
+  // Close on backdrop click
+  backdrop.addEventListener('click', closeMenu);
 
   // Close on nav link click
   menu.querySelectorAll('a').forEach((link) => {

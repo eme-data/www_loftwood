@@ -198,13 +198,8 @@ function initMobileMenu() {
   // Close on backdrop click
   backdrop.addEventListener('click', closeMenu);
 
-  // Close on nav link click — let the link navigate first
-  menu.querySelectorAll('.lw-fullscreen-nav a').forEach((link) => {
-    link.addEventListener('click', () => {
-      // Small delay to let the browser start navigation
-      setTimeout(closeMenu, 150);
-    });
-  });
+  // Nav links: don't preventDefault — let browser navigate normally.
+  // Page reload will naturally reset the menu state.
 
   // Close on Escape
   document.addEventListener('keydown', (e) => {
